@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MI-BCI — Real-Time EEG–sEMG Multimodal BCI for VR Avatar Control</title>
+<meta name="description" content="운동 상상(Motor Imagery) 신호만으로 Meta Quest 3 VR 아바타의 양팔을 실시간 제어하는 EEG+sEMG 하이브리드 BCI 시스템.">
+<link rel="stylesheet" href="../../assets/style.css">
+</head>
+<body>
+
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="../../index.html" class="nav-brand">Dalgona039 / Lee Won Seok</a>
+    <button class="nav-toggle" id="navToggle" aria-label="Menu"><span></span><span></span><span></span></button>
+    <div class="nav-links">
+      <a href="../../index.html#about" class="nav-link">About</a>
+      <div class="nav-drop" id="projDrop">
+        <span class="nav-link" id="projDropBtn" role="button" tabindex="0">Projects
+          <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2.5 4.5L6 8l3.5-3.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
+        <div class="nav-drop-menu">
+          <a href="../mi-bci/index.html"><span class="dot" style="background:var(--block-sky)"></span>MI-BCI (VR)</a>
+          <a href="../tree-rag/index.html"><span class="dot" style="background:var(--block-lime)"></span>TreeRAG</a>
+          <a href="../hop-android/index.html"><span class="dot" style="background:var(--block-mint)"></span>HOP Android</a>
+          <a href="../ai-festival/index.html"><span class="dot" style="background:var(--block-lilac)"></span>N2O Digital Twin</a>
+          <a href="../gait-analysis/index.html"><span class="dot" style="background:var(--block-cream)"></span>Walk-Fit</a>
+          <a href="../fog-detection/index.html"><span class="dot" style="background:var(--block-pink)"></span>FOG Detection</a>
+          <a href="../moon-bti/index.html"><span class="dot" style="background:var(--block-coral)"></span>Moon-BTI</a>
+          <a href="../ai-port/index.html"><span class="dot" style="background:var(--block-navy)"></span>AI-PORT</a>
+        </div>
+      </div>
+      <a href="../../index.html#publications" class="nav-link">Publications</a>
+      <a href="../../index.html#contact" class="nav-link">Contact</a>
+      <a href="https://github.com/dalgona039" target="_blank" rel="noopener" class="btn btn-secondary nav-cta">GitHub →</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HEADER -->
+<header class="section proj-hero">
+  <div class="block block-sky" style="padding-top:0;padding-bottom:0;">
+    <div class="block-inner">
+      <span class="eyebrow" style="color:#1f3050;">BCI · Neural Engineering · Flagship Research</span>
+      <h1 class="display-lg" style="color:#15233d;">MI-BCI</h1>
+      <p class="subhead lead" style="color:#1f3050;max-width:44ch;margin-bottom:26px;">Real-Time EEG–sEMG Multimodal BCI for VR Avatar Motor Control via Motor Imagery</p>
+      <p class="body-lg" style="max-width:58ch;color:#1f3050;">운동 상상(Motor Imagery) 신호만으로 Meta Quest 3 VR 아바타의 양팔을 실시간 제어하는 EEG+sEMG 하이브리드 BCI 시스템.</p>
+      <div class="tags mt-m">
+        <span class="tag">Python</span><span class="tag">PyTorch</span><span class="tag">EEGNet</span><span class="tag">BiLSTM</span>
+        <span class="tag">ONNX</span><span class="tag">FastAPI · WebSocket</span><span class="tag">Unity</span><span class="tag">Meta Quest 3</span>
+      </div>
+      <div class="proj-hero-actions mt-m">
+        <a href="https://github.com/dalgona039/MI-BCI" target="_blank" rel="noopener" class="btn btn-primary">View on GitHub</a>
+        <a href="../../index.html#publications" class="btn btn-secondary">Publication ↗</a>
+        <span class="pub-status" style="border-color:rgba(31,48,80,.4);color:#1f3050;"><span class="dot"></span>Paper In Prep · Target JNE (IF ~5.0)</span>
+      </div>
+      <p class="body-sm mt-m" style="color:#3a4a66;">
+</p>
+    </div>
+  </div>
+</header>
+
+<!-- OVERVIEW -->
+<section class="section">
+  <div class="wrap">
+    <div class="two-col">
+      <div>
+        <span class="eyebrow ink-soft">Overview</span>
+        <h2 class="display-lg mt-s">상상이<br>아바타가 되다.</h2>
+      </div>
+      <div>
+        <p class="body-lg">뇌파(EEG)와 표면 근전도(sEMG)를 동시에 활용하는 하이브리드 BCI 시스템입니다. 좌/우 손 운동 상상 신호만으로 Meta Quest 3 VR 환경에서 아바타의 양팔을 <strong>실시간 제어</strong>하는 End-to-End 파이프라인을 구축합니다.</p>
+        <p class="body mt-s ink-soft">핵심 주장: EEG+sEMG 멀티모달 fusion의 신경생리학적 타당성과 실시간 BCI-VR 시스템의 실용성을 함께 검증합니다. </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MODEL / METHODOLOGY -->
+<section class="block block-sky">
+  <div class="block-inner">
+    <span class="eyebrow" style="color:#1f3050;">Methodology · Architecture</span>
+    <h2 class="headline mt-s mb-m" style="color:#15233d;">HybridBCIModel — Dual-Stream Fusion</h2>
+    <div class="flow mb-m">
+      <span class="node">EEG 64ch</span><span class="arrow">→</span>
+      <span class="node">EEGNet Encoder · 256d</span>
+      <span class="arrow" style="margin:0 6px;">＋</span>
+      <span class="node">sEMG 4ch</span><span class="arrow">→</span>
+      <span class="node">BiLSTM Encoder · 256d</span>
+      <span class="arrow">→</span>
+      <span class="node">Softmax Attention Fusion</span><span class="arrow">→</span>
+      <span class="node">FC 256→128→2</span>
+    </div>
+    <ul class="feature-list">
+      <li><span class="idx">01</span><span class="ft-body"><strong>EEGNet Encoder</strong> — 64ch EEG → 256-dim (F1=8, D=2, kernel 256, dropout 0.5).</span></li>
+      <li><span class="idx">02</span><span class="ft-body"><strong>sEMG BiLSTM Encoder</strong> — 4ch envelope → 256-dim (2-layer BiLSTM, LayerNorm).</span></li>
+      <li><span class="idx">03</span><span class="ft-body"><strong>Softmax Attention Fusion</strong> — (h_EEG, h_EMG)의 가중합(합=1)으로 256-dim 융합 표현 생성.</span></li>
+      <li><span class="idx">04</span><span class="ft-body"><strong>학습</strong> — Adam lr=1e-3, Cross-Entropy + L2, LOSO 52-fold, Google Colab A100.</span></li>
+      <li><span class="idx">05</span><span class="ft-body"><strong>전처리 절제 연구</strong> — baseline / wideband / narrowband / gamma 4가지 전략을 비교.</span></li>
+    </ul>
+  </div>
+</section>
+
+<!-- PIPELINE -->
+<section class="section">
+  <div class="wrap">
+    <span class="eyebrow ink-soft">Pipeline · S1 → S7</span>
+    <h2 class="display-lg mt-s mb-m">7단계 연구 파이프라인</h2>
+    <ul class="feature-list">
+      <li><span class="idx">S1</span><span class="ft-body"><strong>Data Loading &amp; Sync</strong> — GigaDB .mat 로드, EEG/sEMG 분리, HDF5 캐싱. <em></em></span></li>
+      <li><span class="idx">S2</span><span class="ft-body">Preprocessing Ablation — 4명 팀원이 각기 다른 전처리 파라미터로 비교. </span></li>
+      <li><span class="idx">S3</span><span class="ft-body"><strong>Model Training &amp; LOSO CV</strong> — 52-fold 교차검증 학습. <em></em></span></li>
+      <li><span class="idx">S4</span><span class="ft-body"><strong>XAI Analysis</strong> — DeepSHAP · Grad-CAM · ERD(%) 검증. <em></em></span></li>
+      <li><span class="idx">S5</span><span class="ft-body"><strong>Bias Analysis &amp; Fix</strong> — Right MI 편향 분석 + Hemispheric Flip Augmentation + Logit Calibration. <em></em></span></li>
+      <li><span class="idx">S6</span><span class="ft-body"><strong>Cross-dataset Transfer</strong> — GigaDB → BCI Competition IV 2a zero-shot 평가. <em></em></span></li>
+      <li><span class="idx">S7</span><span class="ft-body"><strong>Real-time BCI-VR Integration</strong> — ONNX → WebSocket → Unity 아바타 IK 제어. <em></em></span></li>
+    </ul>
+  </div>
+</section>
+
+<!-- RESULTS -->
+<section class="section" style="padding-top:0;">
+  <div class="wrap">
+    <span class="eyebrow ink-soft">Key Results · LOSO-52</span>
+    <h2 class="display-lg mt-s mb-m">정량적 성과</h2>
+    <div class="stats">
+      <div class="stat"><div class="num">74.2%</div><div class="lbl">Accuracy ±11.1</div></div>
+      <div class="stat"><div class="num">0.738</div><div class="lbl">F1-Macro</div></div>
+      <div class="stat"><div class="num">0.484</div><div class="lbl">Cohen's κ</div></div>
+      <div class="stat"><div class="num">3.44</div><div class="lbl">ITR (bits/min)</div></div>
+    </div>
+    <p class="body mt-l ink-soft" style="max-width:62ch;">추론 latency ~6ms (ONNX CPU, FastAPI), 전체 파이프라인 ~20–26ms. 데이터셋: GigaDB 100295 (Cho et al. 2017) — 52명, EEG 64ch + sEMG 4ch, 512Hz.</p>
+  </div>
+</section>
+
+<!-- BIAS ANALYSIS -->
+<section class="block block-lilac">
+  <div class="block-inner">
+    <span class="eyebrow">Deep Dive · Bias Analysis</span>
+    <h2 class="headline mt-s mb-m">Right MI 과예측 편향</h2>
+    <div class="two-col">
+      <div>
+        <p class="body" style="color:#2e2750;">일부 피험자에서 Right MI 과분류가 발생했습니다. Recall 차이 &gt; 0.30 기준으로 <strong>10명(19%)</strong>이 해당(mean=0.116, SD=0.179, threshold ≈ 1 SD above mean).</p>
+        <p class="body mt-s" style="color:#2e2750;">근본 원인은 데이터 불균형이 아니라, 52명 중 37명(71%)에서 Left MI 신호가 평균 3% 강해 LOSO 학습 중 모델이 Right MI에 과적합한 것이었습니다.</p>
+      </div>
+      <div>
+        <table class="dtable">
+          <thead><tr><th>시도한 교정</th><th>결과</th></tr></thead>
+          <tbody>
+            <tr><td>Label smoothing ε=0.05/0.10</td><td class="em" style="color:#B0413A;">κ −12%↑ 손실</td></tr>
+            <tr><td>Class weight w=1.2–1.4</td><td class="em" style="color:#B0413A;">κ 7.5–11% 손실</td></tr>
+            <tr><td>Hemispheric Flip Aug.</td><td class="em" style="color:#2f7a43;">재학습 적용</td></tr>
+            <tr><td>Post-hoc Logit Calibration</td><td class="em" style="color:#2f7a43;">교정 적용</td></tr>
+          </tbody>
+        </table>
+        <p class="body-sm mt-s" style="color:#2e2750;">v4 baseline은 유지하되, 편향은 Flip Augmentation 전체 재학습과 Logit Calibration으로 교정하고 Limitations에 기재합니다.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- REAL-TIME SYSTEM -->
+<section class="block block-navy">
+  <div class="block-inner">
+    <span class="eyebrow" style="color:rgba(255,255,255,.65);">S7 · Real-Time BCI-VR System</span>
+    <h2 class="headline mt-s mb-m" style="color:#fff;">ONNX → WebSocket → Unity</h2>
+    <div class="flow mb-m">
+      <span class="node">ONNX Inference Server</span><span class="arrow" style="color:rgba(255,255,255,.6);">→</span>
+      <span class="node">Sliding Window · EMA α=0.3</span><span class="arrow" style="color:rgba(255,255,255,.6);">→</span>
+      <span class="node">WebSocket (JSON)</span><span class="arrow" style="color:rgba(255,255,255,.6);">→</span>
+      <span class="node">Unity AvatarController</span><span class="arrow" style="color:rgba(255,255,255,.6);">→</span>
+      <span class="node">Dual-Arm IK · Meta Quest 3</span>
+    </div>
+    <ul class="feature-list">
+      <li><span class="idx">01</span><span class="ft-body"><strong>FastAPI + WebSocket</strong> 추론 서버 — ONNX Runtime(CPU)으로 ~6ms 추론, min_confidence 0.6.</span></li>
+      <li><span class="idx">02</span><span class="ft-body"><strong>Unity 2022 LTS URP + XR Plugin</strong> — NativeWebSocket 수신 → Lerp + EMA 평활 → IK Target 제어.</span></li>
+      <li><span class="idx">03</span><span class="ft-body"><strong>목표 지연 &lt; 100ms</strong> — 현재 HDF5 Replay 기반, 실시간 전극 입력은 미구현(Known Limitation).</span></li>
+    </ul>
+    <p class="body-sm mt-m" style="color:rgba(255,255,255,.6);">ONNX I/O — eeg (1,64,2304) · emg (1,4,288) → logits/probs (1,2). 크로스 데이터셋: GigaDB(52) 학습 모델을 BCI IV 2a(9명)에 zero-shot 평가.</p>
+  </div>
+</section>
+
+<!-- TECH STACK -->
+<section class="block block-lime">
+  <div class="block-inner">
+    <span class="eyebrow">Tech Stack</span>
+    <h2 class="headline mt-s mb-m">기술 스택</h2>
+    <div class="stack-grid">
+      <div class="stack-col"><h4>Deep Learning</h4><ul><li>PyTorch · EEGNet</li><li>2-layer BiLSTM</li><li>Softmax Attention Fusion</li></ul></div>
+      <div class="stack-col"><h4>Signal / Analysis</h4><ul><li>MNE · SciPy · NumPy</li><li>FastICA · CAR · Butterworth</li><li>Wilcoxon · ITR Bootstrap</li></ul></div>
+      <div class="stack-col"><h4>Real-Time (S5/S7)</h4><ul><li>ONNX Runtime</li><li>FastAPI · Uvicorn</li><li>NativeWebSocket</li></ul></div>
+      <div class="stack-col"><h4>VR</h4><ul><li>Unity 2022 LTS URP</li><li>XR Plugin · IK System</li><li>Meta Quest 3</li></ul></div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOT NAV -->
+<section class="proj-foot">
+  <div class="wrap">
+    <div class="proj-foot-actions">
+      <a href="../../index.html" class="btn btn-secondary">← Back to Home</a>
+      <a href="https://github.com/dalgona039/MI-BCI" target="_blank" rel="noopener" class="btn btn-primary">View on GitHub</a>
+    </div>
+  </div>
+</section>
+
+<script src="../../assets/nav.js"></script>
+</body>
+</html>

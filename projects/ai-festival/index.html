@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>N2O Digital Twin — WWTP Emission Prediction</title>
+<meta name="description" content="하수처리장 시계열 데이터를 기반으로 N2O 배출량을 60분 앞까지 예측하는 디지털 트윈 시스템.">
+<link rel="stylesheet" href="../../assets/style.css">
+</head>
+<body>
+
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="../../index.html" class="nav-brand">Dalgona039 / Lee Won Seok</a>
+    <button class="nav-toggle" id="navToggle" aria-label="Menu"><span></span><span></span><span></span></button>
+    <div class="nav-links">
+      <a href="../../index.html#about" class="nav-link">About</a>
+      <div class="nav-drop" id="projDrop">
+        <span class="nav-link" id="projDropBtn" role="button" tabindex="0">Projects
+          <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2.5 4.5L6 8l3.5-3.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
+        <div class="nav-drop-menu">
+          <a href="../mi-bci/index.html"><span class="dot" style="background:var(--block-sky)"></span>MI-BCI (VR)</a>
+          <a href="../tree-rag/index.html"><span class="dot" style="background:var(--block-lime)"></span>TreeRAG</a>
+          <a href="../hop-android/index.html"><span class="dot" style="background:var(--block-mint)"></span>HOP Android</a>
+          <a href="../ai-festival/index.html"><span class="dot" style="background:var(--block-lilac)"></span>N2O Digital Twin</a>
+          <a href="../gait-analysis/index.html"><span class="dot" style="background:var(--block-cream)"></span>Walk-Fit</a>
+          <a href="../fog-detection/index.html"><span class="dot" style="background:var(--block-pink)"></span>FOG Detection</a>
+          <a href="../moon-bti/index.html"><span class="dot" style="background:var(--block-coral)"></span>Moon-BTI</a>
+          <a href="../ai-port/index.html"><span class="dot" style="background:var(--block-navy)"></span>AI-PORT</a>
+        </div>
+      </div>
+      <a href="../../index.html#publications" class="nav-link">Publications</a>
+      <a href="../../index.html#contact" class="nav-link">Contact</a>
+      <a href="https://github.com/dalgona039" target="_blank" rel="noopener" class="btn btn-secondary nav-cta">GitHub →</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HEADER -->
+<header class="section proj-hero">
+  <div class="block block-lilac" style="padding-top:0;padding-bottom:0;">
+    <div class="block-inner">
+      <span class="eyebrow">Digital Twin · Environmental AI</span>
+      <h1 class="display-lg">N2O Digital Twin</h1>
+      <p class="subhead lead" style="color:#2e2750;max-width:36ch;margin-bottom:26px;">Wastewater Treatment Plant Emission Prediction</p>
+      <p class="body-lg" style="max-width:56ch;color:#2e2750;">하수처리장 시계열 데이터를 기반으로 N2O 배출량을 60분 앞까지 예측하는 디지털 트윈 시스템.</p>
+      <div class="tags mt-m">
+        <span class="tag">Python</span><span class="tag">XGBoost</span><span class="tag">LSTM</span>
+        <span class="tag">FastAPI</span><span class="tag">Time-Series</span><span class="tag">Digital Twin</span><span class="tag">Environmental AI</span>
+      </div>
+      <div class="proj-hero-actions mt-m">
+        <a href="https://github.com/dalgona039/AI-Festival" target="_blank" rel="noopener" class="btn btn-primary">View on GitHub</a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- OVERVIEW -->
+<section class="section">
+  <div class="wrap">
+    <div class="two-col">
+      <div>
+        <span class="eyebrow ink-soft">Overview</span>
+        <h2 class="display-lg mt-s">60분 앞을<br>내다보다.</h2>
+      </div>
+      <div>
+        <p class="body-lg">N2O는 강력한 온실가스로, 하수처리장 운전에서 선제적 제어가 필요합니다. 본 시스템은 과거 36 step(6시간) 시퀀스를 입력받아 <strong>10·20·30·40·50·60분 후</strong> N2O 배출량을 6-step multi-horizon으로 예측합니다.</p>
+        <p class="body mt-s ink-soft">2026 AI·SW 융합 페스티벌 출전 프로젝트이며, Avedøre WWTP 데이터셋을 활용했습니다.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- METHODOLOGY -->
+<section class="block block-lilac">
+  <div class="block-inner">
+    <span class="eyebrow">Methodology · Pipeline</span>
+    <h2 class="headline mt-s mb-m">XGBoost + LSTM 앙상블</h2>
+    <ul class="feature-list">
+      <li><span class="idx">01</span><span class="ft-body"><strong>6-step Multi-horizon 예측</strong> — 10분 단위로 1시간 후까지 N2O를 예측합니다.</span></li>
+      <li><span class="idx">02</span><span class="ft-body"><strong>핵심 모델</strong> — XGBoost와 LSTM을 앙상블해 정확도를 극대화합니다.</span></li>
+      <li><span class="idx">03</span><span class="ft-body"><strong>이상 탐지</strong> — CUSUM 기반 anomaly detection으로 비정상 패턴을 포착합니다.</span></li>
+      <li><span class="idx">04</span><span class="ft-body"><strong>전처리 파이프라인</strong> — 이상치 제거, 위상 보존, FFT 기반 N2O 사이클 분석(주기: weekly).</span></li>
+      <li><span class="idx">05</span><span class="ft-body"><strong>서빙</strong> — FastAPI 백엔드 + 정적 프론트엔드 대시보드.</span></li>
+    </ul>
+    <div class="mt-l">
+      <h4 style="font-family:var(--font-mono);font-size:12px;letter-spacing:1px;text-transform:uppercase;margin-bottom:14px;">Model Comparison</h4>
+      <div class="tags">
+        <span class="tag tag-soft">XGBoost</span><span class="tag tag-soft">LightGBM</span><span class="tag tag-soft">CatBoost</span>
+        <span class="tag tag-soft">LSTM</span><span class="tag tag-soft">GRU</span><span class="tag tag-soft">TimesNet</span>
+        <span class="tag tag-soft">Hybrid</span><span class="tag">★ XGBoost + LSTM Ensemble</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RESULTS -->
+<section class="section">
+  <div class="wrap">
+    <span class="eyebrow ink-soft">Key Results</span>
+    <h2 class="display-lg mt-s mb-m">예측 성과</h2>
+    <div class="stats">
+      <div class="stat"><div class="num">60min</div><div class="lbl">Forecast Horizon</div></div>
+      <div class="stat"><div class="num">6</div><div class="lbl">Multi-step Outputs</div></div>
+      <div class="stat"><div class="num">36</div><div class="lbl">Input Steps (6h)</div></div>
+      <div class="stat"><div class="num">8</div><div class="lbl">Models Compared</div></div>
+    </div>
+    <p class="body mt-l ink-soft" style="max-width:60ch;">8개 후보 모델 비교 실험 결과, XGBoost + LSTM 앙상블이 전 horizon에서 가장 우수한 정확도를 기록해 최종 모델로 채택되었습니다.</p>
+  </div>
+</section>
+
+<!-- TECH STACK -->
+<section class="block block-lime">
+  <div class="block-inner">
+    <span class="eyebrow">Tech Stack</span>
+    <h2 class="headline mt-s mb-m">기술 스택</h2>
+    <div class="stack-grid">
+      <div class="stack-col"><h4>Machine Learning</h4><ul><li>XGBoost</li><li>LSTM (PyTorch)</li><li>LightGBM · CatBoost · GRU</li></ul></div>
+      <div class="stack-col"><h4>Backend</h4><ul><li>FastAPI</li><li>Uvicorn</li></ul></div>
+      <div class="stack-col"><h4>Frontend</h4><ul><li>정적 HTML / JS 대시보드</li></ul></div>
+      <div class="stack-col"><h4>Analysis</h4><ul><li>FFT (주기 분석)</li><li>CUSUM</li><li>Outlier detection</li></ul></div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOT NAV -->
+<section class="proj-foot">
+  <div class="wrap">
+    <div class="proj-foot-actions">
+      <a href="../../index.html" class="btn btn-secondary">← Back to Home</a>
+      <a href="https://github.com/dalgona039/AI-Festival" target="_blank" rel="noopener" class="btn btn-primary">View on GitHub</a>
+    </div>
+  </div>
+</section>
+
+<script src="../../assets/nav.js"></script>
+</body>
+</html>

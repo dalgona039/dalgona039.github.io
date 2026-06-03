@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lee Won Seok — Biomedical Engineer</title>
+<meta name="description" content="Biomedical engineer building AI systems at the intersection of biosignals, LLMs, and real-world impact.">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<!-- ===================== NAV ===================== -->
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-brand">Dalgona039 / Lee Won Seok</a>
+    <button class="nav-toggle" id="navToggle" aria-label="Menu"><span></span><span></span><span></span></button>
+    <div class="nav-links">
+      <a href="#about" class="nav-link">About</a>
+      <div class="nav-drop" id="projDrop">
+        <span class="nav-link" id="projDropBtn" role="button" tabindex="0">Projects
+          <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2.5 4.5L6 8l3.5-3.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
+        <div class="nav-drop-menu">
+          <a href="projects/mi-bci/index.html"><span class="dot" style="background:var(--block-sky)"></span>MI-BCI (VR)</a>
+          <a href="projects/tree-rag/index.html"><span class="dot" style="background:var(--block-lime)"></span>TreeRAG</a>
+          <a href="projects/hop-android/index.html"><span class="dot" style="background:var(--block-mint)"></span>HOP Android</a>
+          <a href="projects/ai-festival/index.html"><span class="dot" style="background:var(--block-lilac)"></span>N2O Digital Twin</a>
+          <a href="projects/gait-analysis/index.html"><span class="dot" style="background:var(--block-cream)"></span>Walk-Fit</a>
+          <a href="projects/fog-detection/index.html"><span class="dot" style="background:var(--block-pink)"></span>FOG Detection</a>
+          <a href="projects/moon-bti/index.html"><span class="dot" style="background:var(--block-coral)"></span>Moon-BTI</a>
+          <a href="projects/ai-port/index.html"><span class="dot" style="background:var(--block-navy)"></span>AI-PORT</a>
+        </div>
+      </div>
+      <a href="#publications" class="nav-link">Publications</a>
+      <a href="#contact" class="nav-link">Contact</a>
+      <a href="https://github.com/dalgona039" target="_blank" rel="noopener" class="btn btn-secondary nav-cta">GitHub →</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ===================== HERO ===================== -->
+<header class="hero">
+  <div class="wrap">
+    <span class="eyebrow">Kyung Hee University · Biomedical · Electronic · Semiconductor Engineering</span>
+    <h1 class="display-xl">Lee Won Seok</h1>
+    <p class="hero-lead body-lg">Biomedical engineer building AI systems at the intersection of biosignals, LLMs, and real-world impact.</p>
+    <div class="hero-actions">
+      <a href="https://github.com/dalgona039" target="_blank" rel="noopener" class="btn btn-primary">GitHub</a>
+      <a href="mailto:icpuff83@khu.ac.kr" class="btn btn-secondary">Email</a>
+      <a href="https://instagram.com/wonseok_04" target="_blank" rel="noopener" class="btn btn-secondary">Instagram</a>
+    </div>
+  </div>
+</header>
+
+<!-- ===================== MARQUEE ===================== -->
+<div class="marquee" aria-hidden="true">
+  <div class="marquee-track">
+    <span class="marquee-item">EEG</span><span class="marquee-item dim">·</span>
+    <span class="marquee-item">sEMG</span><span class="marquee-item dim">·</span>
+    <span class="marquee-item">IMU</span><span class="marquee-item dim">·</span>
+    <span class="marquee-item">BCI</span><span class="marquee-item dim">·</span>
+    <span class="marquee-item">RAG</span><span class="marquee-item dim">·</span>
+    <span class="marquee-item">LLM</span><span class="marquee-item dim">·</span>
+    <span class="marquee-item">Flutter</span><span class="marquee-item dim">·</span>
+    <span class="marquee-item">FastAPI</span><span class="marquee-item dim">·</span>
+    <span class="marquee-item">PyTorch</span><span class="marquee-item dim">·</span>
+    <span class="marquee-item">TensorFlow</span><span class="marquee-item dim">·</span>
+    <span class="marquee-item">Tauri</span><span class="marquee-item dim">·</span>
+    <span class="marquee-item">Dijkstra</span><span class="marquee-item dim">·</span>
+    <!-- duplicate for seamless loop -->
+    <span class="marquee-item">EEG</span><span class="marquee-item dim">·</span>
+    <span class="marquee-item">sEMG</span><span class="marquee-item dim">·</span>
+    <span class="marquee-item">IMU</span><span class="marquee-item dim">·</span>
+    <span class="marquee-item">BCI</span><span class="marquee-item dim">·</span>
+    <span class="marquee-item">RAG</span><span class="marquee-item dim">·</span>
+    <span class="marquee-item">LLM</span><span class="marquee-item dim">·</span>
+    <span class="marquee-item">Flutter</span><span class="marquee-item dim">·</span>
+    <span class="marquee-item">FastAPI</span><span class="marquee-item dim">·</span>
+    <span class="marquee-item">PyTorch</span><span class="marquee-item dim">·</span>
+    <span class="marquee-item">TensorFlow</span><span class="marquee-item dim">·</span>
+    <span class="marquee-item">Tauri</span><span class="marquee-item dim">·</span>
+    <span class="marquee-item">Dijkstra</span><span class="marquee-item dim">·</span>
+  </div>
+</div>
+
+<!-- ===================== ABOUT ===================== -->
+<section class="section" id="about">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">About</span>
+      <h2 class="display-lg">생체신호와 AI의 교차점</h2>
+    </div>
+    <div class="about-grid">
+      <div class="about-bio">
+        <p class="body-lg">생체신호 처리와 AI를 결합해 임상적 가치를 만드는 연구자입니다. EEG·sEMG 기반 BCI, LLM 기반 문서 지능 플랫폼, 환경 디지털 트윈까지 — 실세계 문제를 데이터와 딥러닝으로 해결하는 것에 관심을 둡니다.</p>
+      </div>
+      <div class="about-interests">
+        <span class="eyebrow interests-title">Interests</span>
+        <div class="tags">
+          <span class="tag">Biomedical Signal Processing</span>
+          <span class="tag">Brain-Computer Interface (BCI)</span>
+          <span class="tag">LLM / RAG Systems</span>
+          <span class="tag">Deep Learning (CNN-LSTM, Transformer)</span>
+          <span class="tag">Digital Twin &amp; Time-Series</span>
+          <span class="tag">Flutter · Tauri</span>
+          <span class="tag">Clinical Decision Support (CDSS)</span>
+          <span class="tag">Environmental AI</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== PUBLICATIONS ===================== -->
+<section class="block block-cream" id="publications">
+  <div class="block-inner">
+    <span class="eyebrow">Publications &amp; Research</span>
+    <h2 class="headline mt-s mb-m">두 편의 논문을 준비 중입니다 · 2 in preparation</h2>
+
+    <div class="pub-list">
+
+      <!-- Featured: BCI-VR -->
+      <article class="pub-item">
+        <div class="pub-side">
+          <span class="eyebrow">Target · Journal of Neural Engineering (IF ~5.0)</span>
+          <p class="body-sm ink-soft">역할: S5 Backend + VR Integration Lead (경희대 4인 팀)</p>
+          <p class="body-sm ink-soft mt-s">소스 · 프로젝트: <a href="projects/mi-bci/index.html" style="border-bottom:1px solid currentColor;">MI-BCI</a></p>
+          <div class="pub-status mt-s"><span class="dot"></span>In Preparation · 40% Drafted</div>
+        </div>
+        <div class="pub-main">
+          <span class="pub-flag">★ Flagship Research</span>
+          <h3>Real-Time EEG–sEMG Multimodal BCI for VR Avatar Motor Control via Motor Imagery</h3>
+          <p class="body">GigaDB (Cho et al. 2017, 52명, EEG 64ch + sEMG 4ch, 512Hz) 기반으로 Motor Imagery(좌/우 손 상상)를 분류하고, 결과를 Meta Quest 3 VR 아바타의 양팔로 실시간 제어하는 End-to-End BCI 시스템. EEG+sEMG 멀티모달 fusion의 신경생리학적 타당성과 실시간 BCI-VR 시스템의 실용성을 함께 검증합니다.</p>
+          <p class="body-sm ink-soft mt-s">HybridBCIModel: EEGNet Encoder + sEMG BiLSTM Encoder + Softmax Attention Fusion → FC Classifier. LOSO 52-fold 평가.</p>
+          <div class="pub-metrics">
+            <span class="tag tag-soft">LOSO-52 · Acc 74.2%</span>
+            <span class="tag tag-soft">F1-Macro 0.738</span>
+            <span class="tag tag-soft">Cohen's κ 0.484</span>
+            <span class="tag tag-soft">ITR 3.44 bits/min</span>
+            <span class="tag tag-soft">~6ms inference (ONNX)</span>
+          </div>
+        </div>
+      </article>
+
+      <!-- Walk-Fit -->
+      <article class="pub-item">
+        <div class="pub-side">
+          <span class="eyebrow">Gait Analysis · CDSS</span>
+          <p class="body-sm ink-soft">관련 프로젝트: <a href="projects/gait-analysis/index.html" style="border-bottom:1px solid currentColor;">Walk-Fit</a></p>
+          <div class="pub-status mt-s"><span class="dot"></span>In Preparation</div>
+        </div>
+        <div class="pub-main">
+          <h3>Virtual-Sensor Gait Analysis for Lumbar Disease Decision Support</h3>
+          <p class="body">발 IMU만으로 골반 가속도를 예측하는 Conv1D-LSTM 가상 센서 모델과 재구성 오차 기반 보행 이상 판정 CDSS를 다룹니다. Kuopio Gait Dataset(51명, 100Hz)을 활용한 검증 결과를 논문으로 정리 중입니다.</p>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ===================== PROJECTS ===================== -->
+<section class="section" id="projects">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Selected Work · 08</span>
+      <h2 class="display-lg">Projects</h2>
+    </div>
+    <div class="proj-grid">
+
+      <a href="projects/mi-bci/index.html" class="proj-card">
+        <span class="swatch" style="background:var(--block-sky)"></span>
+        <h3>MI-BCI (VR)</h3>
+        <p class="proj-desc">운동 상상 신호만으로 Meta Quest 3 VR 아바타의 양팔을 실시간 제어하는 EEG+sEMG 하이브리드 BCI 시스템. <strong>Target: JNE</strong>.</p>
+        <p class="proj-tags">PyTorch · EEGNet · BiLSTM · ONNX · Unity</p>
+        <span class="proj-link">View Project →</span>
+      </a>
+
+      <a href="projects/tree-rag/index.html" class="proj-card">
+        <span class="swatch" style="background:var(--block-lime)"></span>
+        <h3>TreeRAG</h3>
+        <p class="proj-desc">PDF를 계층적 지식 트리로 변환해 100% 추적 가능한 정밀 검색을 제공하는 LLM RAG 플랫폼.</p>
+        <p class="proj-tags">Python · FastAPI · Next.js · Gemini · RAG</p>
+        <span class="proj-link">View Project →</span>
+      </a>
+
+      <a href="projects/hop-android/index.html" class="proj-card">
+        <span class="swatch" style="background:var(--block-mint)"></span>
+        <h3>HOP Android</h3>
+        <p class="proj-desc">Tauri v2와 Rust 기반 rhwp 엔진을 활용한 안드로이드용 오픈소스 HWP 뷰어·편집기.</p>
+        <p class="proj-tags">Tauri v2 · Rust · Kotlin · Android</p>
+        <span class="proj-link">View Project →</span>
+      </a>
+
+      <a href="projects/ai-festival/index.html" class="proj-card">
+        <span class="swatch" style="background:var(--block-lilac)"></span>
+        <h3>N2O Digital Twin</h3>
+        <p class="proj-desc">하수처리장 시계열 데이터로 N2O 배출량을 60분 앞까지 예측하는 디지털 트윈 시스템.</p>
+        <p class="proj-tags">XGBoost · LSTM · FastAPI · Time-Series</p>
+        <span class="proj-link">View Project →</span>
+      </a>
+
+      <a href="projects/gait-analysis/index.html" class="proj-card">
+        <span class="swatch" style="background:var(--block-cream)"></span>
+        <h3>Walk-Fit</h3>
+        <p class="proj-desc">발 IMU 센서만으로 골반 움직임을 예측하는 가상 센서 기반 보행 이상 감지 CDSS.</p>
+        <p class="proj-tags">TensorFlow · Conv1D-LSTM · Streamlit</p>
+        <span class="proj-link">View Project →</span>
+      </a>
+
+      <a href="projects/fog-detection/index.html" class="proj-card">
+        <span class="swatch" style="background:var(--block-pink)"></span>
+        <h3>FOG Detection</h3>
+        <p class="proj-desc">58채널 멀티모달 생체신호 융합으로 파킨슨병 보행 동결을 실시간 감지하는 개인화 딥러닝 시스템.</p>
+        <p class="proj-tags">EEG · sEMG · IMU · CNN-LSTM</p>
+        <span class="proj-link">View Project →</span>
+      </a>
+
+      <a href="projects/moon-bti/index.html" class="proj-card">
+        <span class="swatch" style="background:var(--block-coral)"></span>
+        <h3>문BTI (Moon-BTI)</h3>
+        <p class="proj-desc">독서 취향을 MBTI 프레임으로 분석해 대표 작가·작품으로 연결하는 크로스플랫폼 Flutter 앱.</p>
+        <p class="proj-tags">Flutter · Dart · Material 3 · MBTI</p>
+        <span class="proj-link">View Project →</span>
+      </a>
+
+      <a href="projects/ai-port/index.html" class="proj-card">
+        <span class="swatch" style="background:var(--block-navy)"></span>
+        <h3>AI-PORT</h3>
+        <p class="proj-desc">자연어로 말하면 거리와 혼잡도를 동시에 고려해 공항 최적 동선을 즉시 제안하는 AI 챗봇.</p>
+        <p class="proj-tags">FastAPI · Dijkstra · NLP · Kotlin</p>
+        <span class="proj-link">View Project →</span>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<!-- ===================== FOOTER ===================== -->
+<footer class="footer" id="contact">
+  <div class="wrap">
+    <div class="footer-top">
+      <h2>Let's build something<br>at the edge of bio &amp; AI.</h2>
+      <div class="footer-links">
+        <a href="mailto:icpuff83@khu.ac.kr" class="btn btn-secondary">icpuff83@khu.ac.kr</a>
+        <a href="https://github.com/dalgona039" target="_blank" rel="noopener" class="btn btn-secondary">GitHub ↗</a>
+        <a href="https://instagram.com/wonseok_04" target="_blank" rel="noopener" class="btn btn-secondary">@wonseok_04 ↗</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Lee Won Seok · Kyung Hee University</span>
+      <span>Biomedical · Electronic · Semiconductor Engineering</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Mobile nav toggle + projects dropdown
+  (function () {
+    var nav = document.getElementById('nav');
+    var toggle = document.getElementById('navToggle');
+    var drop = document.getElementById('projDrop');
+    var dropBtn = document.getElementById('projDropBtn');
+
+    toggle.addEventListener('click', function () { nav.classList.toggle('open'); });
+
+    dropBtn.addEventListener('click', function (e) {
+      if (window.matchMedia('(max-width: 880px)').matches) {
+        e.preventDefault();
+        drop.classList.toggle('open');
+      }
+    });
+    dropBtn.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); drop.classList.toggle('open'); }
+    });
+
+    // close mobile menu when a link is tapped
+    nav.querySelectorAll('.nav-links a').forEach(function (a) {
+      a.addEventListener('click', function () { nav.classList.remove('open'); });
+    });
+  })();
+</script>
+
+</body>
+</html>

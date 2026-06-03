@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HOP Android — Open-Source HWP Viewer &amp; Editor</title>
+<meta name="description" content="Tauri v2와 Rust 기반 rhwp 엔진을 활용한 안드로이드용 오픈소스 HWP 뷰어·편집기.">
+<link rel="stylesheet" href="../../assets/style.css">
+</head>
+<body>
+
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="../../index.html" class="nav-brand">Dalgona039 / Lee Won Seok</a>
+    <button class="nav-toggle" id="navToggle" aria-label="Menu"><span></span><span></span><span></span></button>
+    <div class="nav-links">
+      <a href="../../index.html#about" class="nav-link">About</a>
+      <div class="nav-drop" id="projDrop">
+        <span class="nav-link" id="projDropBtn" role="button" tabindex="0">Projects
+          <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2.5 4.5L6 8l3.5-3.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
+        <div class="nav-drop-menu">
+          <a href="../mi-bci/index.html"><span class="dot" style="background:var(--block-sky)"></span>MI-BCI (VR)</a>
+          <a href="../tree-rag/index.html"><span class="dot" style="background:var(--block-lime)"></span>TreeRAG</a>
+          <a href="../hop-android/index.html"><span class="dot" style="background:var(--block-mint)"></span>HOP Android</a>
+          <a href="../ai-festival/index.html"><span class="dot" style="background:var(--block-lilac)"></span>N2O Digital Twin</a>
+          <a href="../gait-analysis/index.html"><span class="dot" style="background:var(--block-cream)"></span>Walk-Fit</a>
+          <a href="../fog-detection/index.html"><span class="dot" style="background:var(--block-pink)"></span>FOG Detection</a>
+          <a href="../moon-bti/index.html"><span class="dot" style="background:var(--block-coral)"></span>Moon-BTI</a>
+          <a href="../ai-port/index.html"><span class="dot" style="background:var(--block-navy)"></span>AI-PORT</a>
+        </div>
+      </div>
+      <a href="../../index.html#publications" class="nav-link">Publications</a>
+      <a href="../../index.html#contact" class="nav-link">Contact</a>
+      <a href="https://github.com/dalgona039" target="_blank" rel="noopener" class="btn btn-secondary nav-cta">GitHub →</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HEADER -->
+<header class="section proj-hero">
+  <div class="block block-mint" style="padding-top:0;padding-bottom:0;">
+    <div class="block-inner">
+      <span class="eyebrow">Cross-Platform · Mobile</span>
+      <h1 class="display-lg">HOP Android</h1>
+      <p class="subhead lead" style="color:#1c3a36;max-width:34ch;margin-bottom:26px;">Open-Source HWP/HWPX Viewer &amp; Editor for Android</p>
+      <p class="body-lg" style="max-width:56ch;color:#1c3a36;">Tauri v2와 Rust 기반 rhwp 엔진을 활용한 안드로이드용 오픈소스 HWP 뷰어·편집기.</p>
+      <div class="tags mt-m">
+        <span class="tag">Tauri v2</span><span class="tag">Rust</span><span class="tag">TypeScript</span>
+        <span class="tag">Kotlin</span><span class="tag">Android</span><span class="tag">WebAssembly</span>
+      </div>
+      <div class="proj-hero-actions mt-m">
+        <a href="https://github.com/dalgona039/hop_android" target="_blank" rel="noopener" class="btn btn-primary">View on GitHub</a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- OVERVIEW -->
+<section class="section">
+  <div class="wrap">
+    <div class="two-col">
+      <div>
+        <span class="eyebrow ink-soft">Overview</span>
+        <h2 class="display-lg mt-s">공문서 표준을<br>모바일로.</h2>
+      </div>
+      <div>
+        <p class="body-lg">국내 공문서 표준 포맷인 한글 HWP는 모바일 접근성이 취약합니다. HOP Android는 데스크톱 HOP 프로젝트의 Android 포트/포크로, Rust <strong>rhwp 엔진</strong>을 통해 HWP/HWPX를 직접 파싱·렌더링합니다.</p>
+        <p class="body mt-s ink-soft">Tauri v2의 경량 웹뷰 위에서 네이티브에 가까운 성능을 내며, GitHub Releases를 통해 Android 빌드를 배포 완료했습니다.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- METHODOLOGY -->
+<section class="block block-mint">
+  <div class="block-inner">
+    <span class="eyebrow">Methodology · Core Capabilities</span>
+    <h2 class="headline mt-s mb-m">Rust 엔진 + 모바일 웹뷰</h2>
+    <ul class="feature-list">
+      <li><span class="idx">01</span><span class="ft-body"><strong>HWP/HWPX 파싱·렌더링</strong> — Rust rhwp 엔진이 문서 구조를 해석합니다.</span></li>
+      <li><span class="idx">02</span><span class="ft-body"><strong>Android 인텐트 기반 파일 열기</strong> — Scoped Storage I/O로 안전하게 파일에 접근합니다.</span></li>
+      <li><span class="idx">03</span><span class="ft-body"><strong>모바일 UX 최적화</strong> — 안드로이드 네이티브에 가까운 인터랙션 경험을 제공합니다.</span></li>
+      <li><span class="idx">04</span><span class="ft-body"><strong>CI/CD 자동화</strong> — .github/workflows로 빌드·배포 파이프라인을 구성했습니다.</span></li>
+      <li><span class="idx">05</span><span class="ft-body"><strong>Monorepo 구조</strong> — pnpm workspace 기반으로 패키지를 관리합니다.</span></li>
+    </ul>
+    <div class="flow mt-l">
+      <span class="node">HWP/HWPX</span><span class="arrow">→</span>
+      <span class="node">rhwp (Rust)</span><span class="arrow">→</span>
+      <span class="node">WASM</span><span class="arrow">→</span>
+      <span class="node">Tauri WebView</span><span class="arrow">→</span>
+      <span class="node">Android Render</span>
+    </div>
+  </div>
+</section>
+
+<!-- RESULTS -->
+<section class="section">
+  <div class="wrap">
+    <span class="eyebrow ink-soft">Outcome</span>
+    <h2 class="display-lg mt-s mb-m">배포 결과</h2>
+    <div class="stats">
+      <div class="stat"><div class="num">v2</div><div class="lbl">Tauri Runtime</div></div>
+      <div class="stat"><div class="num">2</div><div class="lbl">HWP · HWPX Formats</div></div>
+      <div class="stat"><div class="num">CI/CD</div><div class="lbl">Automated Build</div></div>
+      <div class="stat"><div class="num">APK</div><div class="lbl">Released on GitHub</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- TECH STACK -->
+<section class="block block-lime">
+  <div class="block-inner">
+    <span class="eyebrow">Tech Stack</span>
+    <h2 class="headline mt-s mb-m">기술 스택</h2>
+    <div class="stack-grid">
+      <div class="stack-col"><h4>Cross-Platform</h4><ul><li>Tauri v2</li><li>Rust (rhwp engine)</li><li>WebAssembly</li></ul></div>
+      <div class="stack-col"><h4>Frontend</h4><ul><li>TypeScript</li><li>HTML / CSS</li></ul></div>
+      <div class="stack-col"><h4>Mobile</h4><ul><li>Kotlin</li><li>Android SDK / NDK</li><li>Scoped Storage I/O</li></ul></div>
+      <div class="stack-col"><h4>Tooling</h4><ul><li>pnpm workspace</li><li>Monorepo</li><li>GitHub Actions</li></ul></div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOT NAV -->
+<section class="proj-foot">
+  <div class="wrap">
+    <div class="proj-foot-actions">
+      <a href="../../index.html" class="btn btn-secondary">← Back to Home</a>
+      <a href="https://github.com/dalgona039/hop_android" target="_blank" rel="noopener" class="btn btn-primary">View on GitHub</a>
+    </div>
+  </div>
+</section>
+
+<script src="../../assets/nav.js"></script>
+</body>
+</html>

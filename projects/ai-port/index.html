@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI-PORT — AI-Powered Airport Route Optimization Chatbot</title>
+<meta name="description" content="자연어로 말하면 거리와 혼잡도를 동시에 고려해 공항 최적 동선을 즉시 제안하는 AI 챗봇.">
+<link rel="stylesheet" href="../../assets/style.css">
+</head>
+<body>
+
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="../../index.html" class="nav-brand">Dalgona039 / Lee Won Seok</a>
+    <button class="nav-toggle" id="navToggle" aria-label="Menu"><span></span><span></span><span></span></button>
+    <div class="nav-links">
+      <a href="../../index.html#about" class="nav-link">About</a>
+      <div class="nav-drop" id="projDrop">
+        <span class="nav-link" id="projDropBtn" role="button" tabindex="0">Projects
+          <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2.5 4.5L6 8l3.5-3.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
+        <div class="nav-drop-menu">
+          <a href="../mi-bci/index.html"><span class="dot" style="background:var(--block-sky)"></span>MI-BCI (VR)</a>
+          <a href="../tree-rag/index.html"><span class="dot" style="background:var(--block-lime)"></span>TreeRAG</a>
+          <a href="../hop-android/index.html"><span class="dot" style="background:var(--block-mint)"></span>HOP Android</a>
+          <a href="../ai-festival/index.html"><span class="dot" style="background:var(--block-lilac)"></span>N2O Digital Twin</a>
+          <a href="../gait-analysis/index.html"><span class="dot" style="background:var(--block-cream)"></span>Walk-Fit</a>
+          <a href="../fog-detection/index.html"><span class="dot" style="background:var(--block-pink)"></span>FOG Detection</a>
+          <a href="../moon-bti/index.html"><span class="dot" style="background:var(--block-coral)"></span>Moon-BTI</a>
+          <a href="../ai-port/index.html"><span class="dot" style="background:var(--block-navy)"></span>AI-PORT</a>
+        </div>
+      </div>
+      <a href="../../index.html#publications" class="nav-link">Publications</a>
+      <a href="../../index.html#contact" class="nav-link">Contact</a>
+      <a href="https://github.com/dalgona039" target="_blank" rel="noopener" class="btn btn-secondary nav-cta">GitHub →</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HEADER -->
+<header class="section proj-hero">
+  <div class="block block-navy" style="padding-top:0;padding-bottom:0;">
+    <div class="block-inner">
+      <span class="eyebrow" style="color:rgba(255,255,255,.65);">Route Optimization · NLP</span>
+      <h1 class="display-lg">AI-PORT</h1>
+      <p class="subhead lead" style="color:rgba(255,255,255,.85);max-width:40ch;margin-bottom:26px;">AI-Powered Airport Route Optimization Chatbot</p>
+      <p class="body-lg" style="max-width:58ch;color:rgba(255,255,255,.85);">자연어로 말하면 거리와 혼잡도를 동시에 고려해 공항 최적 동선을 즉시 제안하는 AI 챗봇.</p>
+      <div class="tags mt-m">
+        <span class="tag">Python</span><span class="tag">FastAPI</span><span class="tag">Dijkstra</span><span class="tag">NLP</span>
+        <span class="tag">Route Optimization</span><span class="tag">Incheon Airport</span><span class="tag">Kotlin</span>
+      </div>
+      <div class="proj-hero-actions mt-m">
+        <a href="https://github.com/dalgona039/ai-port" target="_blank" rel="noopener" class="btn btn-primary" style="background:#fff;color:#1C2440;border-color:#fff;">View on GitHub</a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- OVERVIEW -->
+<section class="section">
+  <div class="wrap">
+    <div class="two-col">
+      <div>
+        <span class="eyebrow ink-soft">Overview</span>
+        <h2 class="display-lg mt-s">말하면,<br>길이 보인다.</h2>
+      </div>
+      <div>
+        <p class="body-lg">넓은 공항에서 최적 동선을 찾는 일은 번거롭습니다. AI-PORT는 <strong>한국어 자연어 입력</strong>에서 게이트·경유지·우선순위를 추출하고, 거리와 혼잡도를 동시에 고려한 다중 목표 최적화로 즉시 경로를 제안하는 챗봇입니다.</p>
+        <p class="body mt-s ink-soft">실제 인천공항 T1의 482개 노드 그래프 위에서 동작하며, Android 앱(Kotlin)을 병행 개발했습니다.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXAMPLE -->
+<section class="block block-navy">
+  <div class="block-inner">
+    <span class="eyebrow" style="color:rgba(255,255,255,.65);">Example Query</span>
+    <p class="subhead mt-s" style="color:#fff;max-width:48ch;">"내 탑승 게이트는 15번인데, 가장 가까운 ATM을 들렀다가 한적한 라운지 찾아줘"</p>
+    <div class="flow mt-l">
+      <span class="node">자연어 입력</span><span class="arrow" style="color:rgba(255,255,255,.6);">→</span>
+      <span class="node">의도 해석 (게이트·경유지·우선순위)</span><span class="arrow" style="color:rgba(255,255,255,.6);">→</span>
+      <span class="node">α×거리 + β×혼잡도</span><span class="arrow" style="color:rgba(255,255,255,.6);">→</span>
+      <span class="node">Dijkstra</span><span class="arrow" style="color:rgba(255,255,255,.6);">→</span>
+      <span class="node">최적 동선</span>
+    </div>
+  </div>
+</section>
+
+<!-- METHODOLOGY -->
+<section class="section">
+  <div class="wrap">
+    <span class="eyebrow ink-soft">Methodology · Core Capabilities</span>
+    <h2 class="display-lg mt-s mb-m">다중 목표 경로 최적화</h2>
+    <ul class="feature-list">
+      <li><span class="idx">01</span><span class="ft-body"><strong>자연어 처리</strong> — 한국어 입력에서 게이트·경유지·우선순위를 추출합니다.</span></li>
+      <li><span class="idx">02</span><span class="ft-body"><strong>다중 목표 최적화</strong> — 비용 = α×거리 + β×혼잡도 (Dijkstra 기반).</span></li>
+      <li><span class="idx">03</span><span class="ft-body"><strong>실제 인천공항 T1 데이터</strong> — 482개 노드(게이트·면세점·라운지·ATM 등), 1F~4F 지도 기반 좌표.</span></li>
+      <li><span class="idx">04</span><span class="ft-body"><strong>RESTful API</strong> — JSON / 텍스트 형식 응답 선택 가능.</span></li>
+      <li><span class="idx">05</span><span class="ft-body"><strong>공공API 연동</strong> — 한국 공공데이터포털 인천공항 시설 정보.</span></li>
+      <li><span class="idx">06</span><span class="ft-body"><strong>Android 앱 병행 개발</strong> — Kotlin 네이티브 클라이언트.</span></li>
+    </ul>
+  </div>
+</section>
+
+<!-- RESULTS -->
+<section class="block block-lilac">
+  <div class="block-inner">
+    <span class="eyebrow">Performance Metrics</span>
+    <h2 class="headline mt-s mb-m">성능 지표</h2>
+    <div class="stats">
+      <div class="stat"><div class="num">~50ms</div><div class="lbl">API Response</div></div>
+      <div class="stat"><div class="num">~90%</div><div class="lbl">Intent Accuracy (MVP)</div></div>
+      <div class="stat"><div class="num">±3min</div><div class="lbl">Route Error</div></div>
+      <div class="stat"><div class="num">95%</div><div class="lbl">T1 Coord Accuracy</div></div>
+    </div>
+    <p class="body mt-l" style="max-width:60ch;color:#2e2750;">482개 노드 그래프 위에서 ~50ms 응답으로 최적 동선을 계산하며, 지도 기반 좌표 신뢰도 95%를 확보했습니다.</p>
+  </div>
+</section>
+
+<!-- TECH STACK -->
+<section class="block block-lime">
+  <div class="block-inner">
+    <span class="eyebrow">Tech Stack</span>
+    <h2 class="headline mt-s mb-m">기술 스택</h2>
+    <div class="stack-grid">
+      <div class="stack-col"><h4>Backend</h4><ul><li>FastAPI · Uvicorn</li><li>Pydantic</li></ul></div>
+      <div class="stack-col"><h4>Algorithm</h4><ul><li>Dijkstra</li><li>Multi-objective optimization</li></ul></div>
+      <div class="stack-col"><h4>NLP</h4><ul><li>정규식 + 키워드 매칭</li></ul></div>
+      <div class="stack-col"><h4>Mobile &amp; Data</h4><ul><li>Kotlin (Android)</li><li>인천공항 공공API</li><li>482-node graph</li></ul></div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOT NAV -->
+<section class="proj-foot">
+  <div class="wrap">
+    <div class="proj-foot-actions">
+      <a href="../../index.html" class="btn btn-secondary">← Back to Home</a>
+      <a href="https://github.com/dalgona039/ai-port" target="_blank" rel="noopener" class="btn btn-primary">View on GitHub</a>
+    </div>
+  </div>
+</section>
+
+<script src="../../assets/nav.js"></script>
+</body>
+</html>

@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>문BTI (Moon-BTI) — Literary Personality Test App</title>
+<meta name="description" content="독서 취향을 MBTI 프레임으로 분석해 대표 작가·작품으로 연결하는 크로스플랫폼 Flutter 앱.">
+<link rel="stylesheet" href="../../assets/style.css">
+</head>
+<body>
+
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="../../index.html" class="nav-brand">Dalgona039 / Lee Won Seok</a>
+    <button class="nav-toggle" id="navToggle" aria-label="Menu"><span></span><span></span><span></span></button>
+    <div class="nav-links">
+      <a href="../../index.html#about" class="nav-link">About</a>
+      <div class="nav-drop" id="projDrop">
+        <span class="nav-link" id="projDropBtn" role="button" tabindex="0">Projects
+          <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2.5 4.5L6 8l3.5-3.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
+        <div class="nav-drop-menu">
+          <a href="../mi-bci/index.html"><span class="dot" style="background:var(--block-sky)"></span>MI-BCI (VR)</a>
+          <a href="../tree-rag/index.html"><span class="dot" style="background:var(--block-lime)"></span>TreeRAG</a>
+          <a href="../hop-android/index.html"><span class="dot" style="background:var(--block-mint)"></span>HOP Android</a>
+          <a href="../ai-festival/index.html"><span class="dot" style="background:var(--block-lilac)"></span>N2O Digital Twin</a>
+          <a href="../gait-analysis/index.html"><span class="dot" style="background:var(--block-cream)"></span>Walk-Fit</a>
+          <a href="../fog-detection/index.html"><span class="dot" style="background:var(--block-pink)"></span>FOG Detection</a>
+          <a href="../moon-bti/index.html"><span class="dot" style="background:var(--block-coral)"></span>Moon-BTI</a>
+          <a href="../ai-port/index.html"><span class="dot" style="background:var(--block-navy)"></span>AI-PORT</a>
+        </div>
+      </div>
+      <a href="../../index.html#publications" class="nav-link">Publications</a>
+      <a href="../../index.html#contact" class="nav-link">Contact</a>
+      <a href="https://github.com/dalgona039" target="_blank" rel="noopener" class="btn btn-secondary nav-cta">GitHub →</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HEADER -->
+<header class="section proj-hero">
+  <div class="block block-coral" style="padding-top:0;padding-bottom:0;">
+    <div class="block-inner">
+      <span class="eyebrow">Mobile · UX Design</span>
+      <h1 class="display-lg">문BTI</h1>
+      <p class="subhead lead" style="color:#5a2e1c;max-width:36ch;margin-bottom:26px;">Literary Personality Test App (MoonBTI)</p>
+      <p class="body-lg" style="max-width:56ch;color:#5a2e1c;">독서 취향을 MBTI 프레임으로 분석해 대표 작가·작품으로 연결하는 크로스플랫폼 Flutter 앱.</p>
+      <div class="tags mt-m">
+        <span class="tag">Flutter</span><span class="tag">Dart</span><span class="tag">Material 3</span>
+        <span class="tag">Cross-Platform</span><span class="tag">Mobile</span><span class="tag">MBTI</span><span class="tag">UX Design</span>
+      </div>
+      <div class="proj-hero-actions mt-m">
+        <a href="https://github.com/dalgona039/Moon-BTI" target="_blank" rel="noopener" class="btn btn-primary">View on GitHub</a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- OVERVIEW -->
+<section class="section">
+  <div class="wrap">
+    <div class="two-col">
+      <div>
+        <span class="eyebrow ink-soft">Overview</span>
+        <h2 class="display-lg mt-s">읽는 사람의<br>16가지 얼굴.</h2>
+      </div>
+      <div>
+        <p class="body-lg">독서 취향에는 성향이 묻어납니다. 문BTI는 <strong>24문항 리커트 척도</strong> 진단으로 사용자의 문학 취향을 16가지 MBTI 유형으로 매핑하고, 각 유형을 대표 작가 페르소나·추천 작품·명구절로 연결합니다.</p>
+        <p class="body mt-s ink-soft">뉴모피즘 기반의 감성 디자인 아이덴티티와 접근성을 모두 고려한 단일 화면 플로우 앱입니다.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- METHODOLOGY -->
+<section class="block block-coral">
+  <div class="block-inner">
+    <span class="eyebrow">User Journey · Features</span>
+    <h2 class="headline mt-s mb-m">진단에서 해석까지</h2>
+    <div class="flow mb-m">
+      <span class="node">홈 화면</span><span class="arrow">→</span>
+      <span class="node">24문항 응답</span><span class="arrow">→</span>
+      <span class="node">문항별 확인</span><span class="arrow">→</span>
+      <span class="node">결과 · 작가 유형 · 추천작 · 해석 노트</span>
+    </div>
+    <ul class="feature-list">
+      <li><span class="idx">01</span><span class="ft-body"><strong>24문항 진단</strong> — E/I·S/N·T/F·J/P 각 6문항의 리커트 척도.</span></li>
+      <li><span class="idx">02</span><span class="ft-body"><strong>16가지 결과 매핑</strong> — 작가 페르소나·추천 작품·명구절로 연결.</span></li>
+      <li><span class="idx">03</span><span class="ft-body"><strong>뉴모피즘 디자인</strong> — 감성적인 디자인 아이덴티티를 커스텀 컴포넌트로 구현.</span></li>
+      <li><span class="idx">04</span><span class="ft-body"><strong>접근성 강화</strong> — Semantics 라벨, 최소 터치 영역, 스크린리더 지원.</span></li>
+      <li><span class="idx">05</span><span class="ft-body"><strong>디자인 시스템</strong> — app_tokens.dart로 색상·타이포·간격을 토큰화.</span></li>
+    </ul>
+  </div>
+</section>
+
+<!-- RESULTS -->
+<section class="section">
+  <div class="wrap">
+    <span class="eyebrow ink-soft">At a Glance</span>
+    <h2 class="display-lg mt-s mb-m">제품 요약</h2>
+    <div class="stats">
+      <div class="stat"><div class="num">24</div><div class="lbl">Likert Questions</div></div>
+      <div class="stat"><div class="num">16</div><div class="lbl">MBTI Result Types</div></div>
+      <div class="stat"><div class="num">3</div><div class="lbl">Platforms</div></div>
+      <div class="stat"><div class="num">M3</div><div class="lbl">Material Design 3</div></div>
+    </div>
+    <p class="body mt-l ink-soft" style="max-width:60ch;">Android · macOS · Windows를 지원하며, Provider 없이 간결한 단일 화면 플로우 구조로 설계되었습니다.</p>
+  </div>
+</section>
+
+<!-- TECH STACK -->
+<section class="block block-lime">
+  <div class="block-inner">
+    <span class="eyebrow">Tech Stack</span>
+    <h2 class="headline mt-s mb-m">기술 스택</h2>
+    <div class="stack-grid">
+      <div class="stack-col"><h4>Framework</h4><ul><li>Flutter</li><li>Dart</li></ul></div>
+      <div class="stack-col"><h4>UI</h4><ul><li>Material 3</li><li>Neumorphism 커스텀 컴포넌트</li></ul></div>
+      <div class="stack-col"><h4>State</h4><ul><li>단일 화면 플로우</li><li>간결한 구조 (no Provider)</li></ul></div>
+      <div class="stack-col"><h4>Tooling</h4><ul><li>flutter_lints</li><li>flutter_launcher_icons</li></ul></div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOT NAV -->
+<section class="proj-foot">
+  <div class="wrap">
+    <div class="proj-foot-actions">
+      <a href="../../index.html" class="btn btn-secondary">← Back to Home</a>
+      <a href="https://github.com/dalgona039/Moon-BTI" target="_blank" rel="noopener" class="btn btn-primary">View on GitHub</a>
+    </div>
+  </div>
+</section>
+
+<script src="../../assets/nav.js"></script>
+</body>
+</html>
