@@ -9,14 +9,10 @@
   if (toggle) toggle.addEventListener('click', function () { nav.classList.toggle('open'); });
 
   if (dropBtn && drop) {
-    dropBtn.addEventListener('click', function (e) {
+    dropBtn.addEventListener('click', function () {
       if (window.matchMedia('(max-width: 880px)').matches) {
-        e.preventDefault();
-        drop.classList.toggle('open');
+        drop.classList.remove('open');
       }
-    });
-    dropBtn.addEventListener('keydown', function (e) {
-      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); drop.classList.toggle('open'); }
     });
   }
 
