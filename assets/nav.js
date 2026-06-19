@@ -9,9 +9,20 @@
   if (toggle) toggle.addEventListener('click', function () { nav.classList.toggle('open'); });
 
   if (dropBtn && drop) {
-    dropBtn.addEventListener('click', function () {
+    var dropMenu = drop.querySelector('.nav-drop-menu');
+    
+    drop.addEventListener('mouseenter', function () {
+      drop.classList.add('open');
+    });
+    
+    drop.addEventListener('mouseleave', function () {
+      drop.classList.remove('open');
+    });
+    
+    dropBtn.addEventListener('click', function (e) {
       if (window.matchMedia('(max-width: 880px)').matches) {
-        drop.classList.remove('open');
+        e.preventDefault();
+        drop.classList.toggle('open');
       }
     });
   }
