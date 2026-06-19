@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>문BTI — Live Demo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+<style>
+  :root{
+    --bg:#E4E9F0; --sdark:#A3B1C6; --slight:#FFFFFF;
+    --accent:#6B8CBA; --accent-d:#4A6F9C; --text:#2E4057; --sub:#516A80; --dim:#8A9FB4;
+    --rS:12px; --rM:20px; --rL:24px; --rXL:28px;
+    --font:'Pretendard','Pretendard Variable',-apple-system,system-ui,'Apple SD Gothic Neo',sans-serif;
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{font-family:var(--font);background:var(--bg);color:var(--text);
+    -webkit-font-smoothing:antialiased;line-height:1.5}
+  button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+  img{display:block;max-width:100%}
+
+  /* neumorphic shadow helpers (match app_tokens.dart) */
+  .raised{box-shadow:6px 6px 12px var(--sdark), -6px -6px 12px var(--slight)}
+  .raised-sm{box-shadow:4px 4px 8px var(--sdark), -4px -4px 8px var(--slight)}
+  .raised-xs{box-shadow:3px 3px 6px var(--sdark), -3px -3px 6px var(--slight)}
+  /* Flutter's neuInsetShadow is actually a softer OUTER shadow, reproduced verbatim */
+  .inset{box-shadow:3px 3px 6px rgba(163,177,198,.55), -3px -3px 6px var(--slight)}
+  .pressed{box-shadow:none !important}
+
+  /* portfolio return bar (host chrome) */
+  .retbar{height:42px;background:#11150f;color:#cfd6cb;display:flex;align-items:center;
+    justify-content:space-between;padding:0 18px;font-size:12.5px;letter-spacing:.2px}
+  .retbar a{color:#cfd6cb;text-decoration:none;display:inline-flex;align-items:center;gap:7px}
+  .retbar a:hover{color:#fff}
+  .retbar .mid{color:#7f8c80;font-size:11px}
+  .retbar .mid b{color:#9fe6b8;font-weight:600}
+  .retbar .gh{border:1px solid #2c3329;border-radius:999px;padding:4px 12px}
+  @media (max-width:680px){ .retbar .mid{display:none} }
+
+  .stage{min-height:calc(100vh - 42px);display:flex;flex-direction:column;align-items:center;
+    justify-content:center;padding:0}
+  .screen{display:none;width:100%}
+  .screen.on{display:block}
+  .center-wrap{max-width:1040px;margin:0 auto;width:100%}
+
+  .neubox{background:var(--bg);border-radius:var(--rM)}
+
+  /* ===================== HOME ===================== */
+  #home .center-wrap{padding:56px 40px}
+  .home-grid{display:flex;align-items:center;gap:36px}
+  .home-logo{flex:5;border-radius:var(--rL);overflow:hidden}
+  .home-logo img{width:100%;height:auto;border-radius:var(--rL)}
+  .home-right{flex:6;display:flex;flex-direction:column;align-items:flex-start}
+  .eyebrow{font-size:14px;color:var(--sub);letter-spacing:.3px;font-weight:500;margin-bottom:20px}
+  .home-title-card{border-radius:var(--rL);padding:28px 36px;width:100%}
+  .brand{font-size:40px;font-weight:900;color:var(--accent);letter-spacing:.5px;line-height:1.1}
+  .brand-sub{font-size:22px;color:var(--sub);letter-spacing:.2px;margin-top:10px}
+  .brand-desc{font-size:16px;color:var(--text);line-height:1.55;letter-spacing:.1px;margin-top:14px;white-space:pre-line}
+  .home-quote{border-radius:var(--rM);padding:18px 22px;margin-top:28px;font-size:16px;color:var(--sub);
+    line-height:1.6;letter-spacing:.1px;white-space:pre-line;width:100%}
+  .neu-btn{background:var(--bg);border-radius:var(--rXL);height:56px;padding:0 28px;
+    display:inline-flex;align-items:center;justify-content:center;gap:8px;
+    font-size:16px;font-weight:700;color:var(--accent);letter-spacing:.2px;transition:box-shadow .12s,color .12s}
+  .neu-btn:active{color:var(--sub)}
+  .neu-btn.full{width:100%}
+  .home-cta{margin-top:32px;width:260px}
+
+  /* ===================== QUESTION ===================== */
+  #quiz .center-wrap{max-width:1040px;padding:24px 36px;min-height:calc(100vh - 42px);
+    display:flex;flex-direction:column}
+  .topbar{display:flex;align-items:center;gap:12px}
+  .neu-icon{width:48px;height:48px;border-radius:50%;background:var(--bg);display:grid;place-items:center;
+    color:var(--sub);flex:0 0 auto;transition:box-shadow .1s}
+  .chapter-pill{margin-left:auto;border-radius:var(--rM);padding:8px 18px;display:flex;align-items:center;gap:10px}
+  .chapter-pill .ch{font-size:12px;font-weight:600;color:var(--text)}
+  .chapter-pill .cnt{font-size:12px;font-weight:700;color:var(--accent);
+    background:rgba(107,140,186,.14);border-radius:8px;padding:2px 8px}
+  .progress{border-radius:8px;margin-top:24px;height:10px;overflow:hidden;position:relative}
+  .progress .bar{height:100%;background:var(--accent);border-radius:8px;transition:width .3s ease}
+  .quiz-label{font-size:14px;color:var(--sub);letter-spacing:.3px;font-weight:500;margin:28px 0 10px}
+
+  .quiz-body{flex:1;display:flex;gap:24px;align-items:stretch;min-height:0}
+  .q-card{flex:7;border-radius:var(--rL);padding:34px;display:flex;align-items:flex-start;
+    font-size:24px;color:var(--text);line-height:1.5;letter-spacing:.1px;font-weight:500}
+  .q-right{flex:5;display:flex;flex-direction:column}
+
+  .likert-panel{border-radius:var(--rL);padding:24px 20px 20px}
+  .likert-q{font-size:16px;font-weight:600;color:var(--text);margin-bottom:16px}
+  .likert-row{display:flex;justify-content:space-evenly;gap:6px}
+  .likert-item{display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer;
+    background:none;border:none;flex:1}
+  .likert-circle{width:48px;height:48px;border-radius:50%;background:var(--bg);display:grid;place-items:center;
+    border:1.5px solid rgba(163,177,198,.4);font-size:14px;color:var(--sub);font-weight:600;transition:.15s}
+  .likert-item:not(.sel) .likert-circle{box-shadow:3px 3px 6px var(--sdark), -3px -3px 6px var(--slight)}
+  .likert-item.sel .likert-circle{background:var(--accent);border-color:transparent;color:#fff;box-shadow:none}
+  .likert-cap{font-size:12px;color:var(--sub);text-align:center;line-height:1.3}
+  .likert-item.sel .likert-cap{color:var(--accent);font-weight:700}
+  .likert-ends{display:flex;justify-content:space-between;padding:0 4px;margin-top:14px}
+  .likert-ends span{font-size:12px;color:var(--sub)}
+  .likert-feedback{font-size:14px;margin-top:12px;text-align:center}
+  .likert-feedback.none{color:var(--sub)}
+  .likert-feedback.has{color:var(--accent);font-weight:600}
+  .q-next{margin-top:auto;padding-top:16px}
+  .neu-btn[disabled]{cursor:not-allowed;color:rgba(46,64,87,.45);
+    background:rgba(163,177,198,.18);border:1px solid rgba(163,177,198,.35);box-shadow:none}
+  .spinner{width:16px;height:16px;border:2.2px solid rgba(107,140,186,.3);border-top-color:var(--accent);
+    border-radius:50%;animation:spin .8s linear infinite}
+  @keyframes spin{to{transform:rotate(360deg)}}
+
+  /* ===================== RESULT ===================== */
+  #result .center-wrap{max-width:1040px;padding:34px 36px}
+  .res-eyebrow{font-size:14px;color:var(--sub);letter-spacing:.4px;text-align:center}
+  .res-mbti-badge{display:block;margin:10px auto 0;width:fit-content;padding:6px 14px;border-radius:16px;
+    font-size:14px;font-weight:700;letter-spacing:.3px}
+  .res-grid{display:flex;align-items:flex-start;gap:24px;margin-top:24px}
+  .res-left{flex:5}
+  .res-right{flex:6;display:flex;flex-direction:column}
+
+  .author-card{border-radius:var(--rXL);padding:32px;display:flex;flex-direction:column;align-items:center;text-align:center}
+  .author-img{width:120px;height:120px;border-radius:50%;overflow:hidden;flex:0 0 auto}
+  .author-img img{width:100%;height:100%;object-fit:cover}
+  .author-name{font-size:28px;font-weight:700;color:var(--text);letter-spacing:-.5px;margin-top:20px}
+  .author-tag{margin-top:10px;padding:6px 16px;border-radius:20px;font-size:14px;font-weight:600;letter-spacing:.3px}
+  .author-div{width:100%;border:none;border-top:1px solid rgba(163,177,198,.3);margin:24px 0 16px}
+  .works-label{font-size:14px;color:var(--sub);letter-spacing:.2px;font-weight:600}
+  .works{display:flex;flex-wrap:wrap;gap:12px 12px;justify-content:center;margin-top:12px}
+  .work-badge{background:var(--bg);border-radius:12px;padding:8px 14px;font-size:14px;font-weight:600;letter-spacing:.2px}
+
+  .summary-card{border-radius:var(--rM);padding:24px}
+  .card-head{font-size:14px;color:var(--accent);letter-spacing:.4px;font-weight:700;display:flex;align-items:center;gap:8px}
+  .summary-line{font-size:15px;color:var(--text);line-height:1.55;margin-bottom:8px}
+  .kw-wrap{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+  .kw{background:rgba(107,140,186,.12);color:var(--accent);border-radius:14px;padding:8px 12px;
+    font-size:14px;font-weight:600;letter-spacing:.2px}
+  .detail-toggle{display:inline-flex;align-items:center;gap:4px;padding:8px;font-size:14px;color:var(--accent);
+    font-weight:700;letter-spacing:.3px;margin-top:16px;align-self:flex-start}
+  .detail-card{border-radius:var(--rM);padding:28px;margin-top:16px}
+  .detail-card.hidden{display:none}
+  .detail-body{font-size:16px;color:var(--text);line-height:1.6;margin-top:16px}
+
+  .quote-card{border-radius:var(--rM);padding:28px;margin-top:24px}
+  .quote-text{font-size:16px;color:var(--text);line-height:1.7;font-style:italic;margin-top:16px}
+  .quote-author{text-align:right;font-size:14px;color:var(--sub);letter-spacing:.2px;margin-top:8px}
+
+  .res-retry{margin:40px auto 0;width:220px}
+  .res-foot{text-align:center;font-size:14px;color:var(--sub);font-weight:600;letter-spacing:.2px;margin-top:20px}
+
+  .ic{width:16px;height:16px;flex:0 0 auto}
+
+  /* ===================== responsive (matches Flutter breakpoints) ===================== */
+  @media (max-width:1079px){
+    #home .center-wrap{padding:40px 24px;max-width:560px}
+    .home-grid{flex-direction:column}
+    .home-logo,.home-right{width:100%}
+    .home-right{align-items:center;text-align:center}
+    .home-title-card{padding:24px 40px;text-align:center}
+    .brand-desc{text-align:center}
+    .home-quote{text-align:center}
+    .home-cta{width:auto;align-self:center}
+    .home-cta .neu-btn{width:auto;padding:0 48px}
+
+    #quiz .center-wrap{max-width:760px}
+    .quiz-body{flex-direction:column}
+    .q-card{flex:none;font-size:18px;padding:28px;border-radius:var(--rM)}
+    .q-right{flex:none}
+    .q-next{margin-top:16px}
+
+    .res-grid{flex-direction:column}
+    .res-left,.res-right{width:100%}
+  }
+  @media (max-width:600px){
+    #home .center-wrap,#quiz .center-wrap,#result .center-wrap{padding-left:18px;padding-right:18px}
+    .brand{font-size:34px}.brand-sub{font-size:19px}
+  }
+</style>
+</head>
+<body>
+
+<div class="retbar">
+  <a href="../../index.html"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg> Moon-BTI 프로젝트로 돌아가기</a>
+  <span class="mid">Live Demo · Flutter 원본 프론트엔드 재현</span>
+  <a class="gh" href="https://github.com/dalgona039/Moon-BTI" target="_blank" rel="noopener">GitHub ↗</a>
+</div>
+
+<div class="stage">
+
+  <!-- ===== HOME ===== -->
+  <section class="screen on" id="home">
+    <div class="center-wrap">
+      <div class="home-grid">
+        <div class="home-logo neubox raised"><img src="assets/logo.png" alt="문BTI 로고" /></div>
+        <div class="home-right">
+          <div class="eyebrow">문학 성향 아카이브</div>
+          <div class="home-title-card neubox raised">
+            <div class="brand">문BTI</div>
+            <div class="brand-sub">나는 어떤 작가의 결을 닮았을까</div>
+            <div class="brand-desc">문장 16개를 따라가며
+당신의 문학적 기질을 찾아보세요.</div>
+          </div>
+          <div class="home-quote neubox inset">“좋은 문장은 독자의 하루를 바꾼다.”
+지금, 당신의 문장이 닮은 작가를 만납니다.</div>
+          <div class="home-cta">
+            <button class="neu-btn raised full" id="startBtn">문장 여정 시작</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== QUESTION ===== -->
+  <section class="screen" id="quiz">
+    <div class="center-wrap">
+      <div class="topbar">
+        <button class="neu-icon raised-sm" id="backBtn" aria-label="이전 문항">
+          <svg class="ic" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+        </button>
+        <div class="chapter-pill neubox raised">
+          <span class="ch" id="chapterTxt">1장  /  24장</span>
+          <span class="cnt" id="answeredTxt">0 응답</span>
+        </div>
+      </div>
+      <div class="progress neubox inset"><div class="bar" id="progressBar" style="width:4.16%"></div></div>
+      <div class="quiz-label">문장 취향 탐색</div>
+
+      <div class="quiz-body">
+        <div class="q-card neubox raised" id="qCard"></div>
+        <div class="q-right">
+          <div class="likert-panel neubox inset">
+            <div class="likert-q">이 문장이 나를 얼마나 설명하나요?</div>
+            <div class="likert-row" id="likertRow"></div>
+            <div class="likert-ends"><span>전혀 그렇지 않다</span><span>매우 그렇다</span></div>
+            <div class="likert-feedback none" id="likertFeedback">가장 가까운 반응을 하나 선택해 주세요.</div>
+          </div>
+          <div class="q-next">
+            <button class="neu-btn raised full" id="nextBtn" disabled>다음 장으로</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== RESULT ===== -->
+  <section class="screen" id="result">
+    <div class="center-wrap" id="resultContent"></div>
+  </section>
+
+</div>
+
+<script src="moon-data.js"></script>
+<script src="moon-app.js"></script>
+</body>
+</html>

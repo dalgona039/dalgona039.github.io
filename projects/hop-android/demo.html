@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="icon" href="assets/favicon.ico" />
+<title>HOP — Live Demo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+<style>
+  :root{
+    --menubar-bg:#f3f4f6; --menubar-border:#d7dade; --menu-hover:#e3effb; --menu-active:#cfe5fb;
+    --toolbar-bg:#fafbfc; --tb-border:#e2e5ea; --tb-hover:#eef3f9; --tb-active:#d6e8fb;
+    --ink:#1f2430; --sub:#5b6472; --faint:#8b94a3; --accent:#2a72c8; --accent-d:#1c5aa6;
+    --canvas:#9aa3ad; --page:#ffffff; --rule-bg:#eef0f3; --rule-mark:#aeb6c0;
+    --status-bg:#f3f4f6; --status-border:#d7dade;
+    --font:'Pretendard','Apple SD Gothic Neo',system-ui,sans-serif;
+    --doc-font:'Pretendard','Batang','함초롬바탕',serif;
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{font-family:var(--font);color:var(--ink);background:#0d0f0e;
+    -webkit-font-smoothing:antialiased;font-size:13px;overflow:hidden}
+  button{font-family:inherit;cursor:default;border:none;background:none;color:inherit}
+
+  /* portfolio return bar (host chrome) */
+  .retbar{height:42px;background:#11150f;color:#cfd6cb;display:flex;align-items:center;
+    justify-content:space-between;padding:0 18px;font-size:12.5px;letter-spacing:.2px;flex:0 0 42px}
+  .retbar a{color:#cfd6cb;text-decoration:none;display:inline-flex;align-items:center;gap:7px}
+  .retbar a:hover{color:#fff}
+  .retbar .mid{color:#7f8c80;font-size:11px}
+  .retbar .mid b{color:#9fe6b8;font-weight:600}
+  .retbar .gh{border:1px solid #2c3329;border-radius:999px;padding:4px 12px}
+  @media (max-width:760px){ .retbar .mid{display:none} }
+
+  #studio-root{height:calc(100vh - 42px);display:flex;flex-direction:column;background:var(--toolbar-bg)}
+
+  /* ===== menu bar ===== */
+  #menu-bar{display:flex;align-items:stretch;background:var(--menubar-bg);
+    border-bottom:1px solid var(--menubar-border);height:30px;padding:0 6px;position:relative;z-index:40;flex:0 0 30px}
+  .menu-item{position:relative;display:flex;align-items:center}
+  .menu-title{padding:0 11px;height:100%;display:flex;align-items:center;font-size:13px;color:var(--ink);
+    border-radius:4px;margin:3px 0}
+  .menu-item:hover .menu-title,.menu-item.open .menu-title{background:var(--menu-active)}
+  .menu-dropdown{position:absolute;top:100%;left:0;min-width:230px;background:#fff;
+    border:1px solid #c9ccd2;border-radius:6px;box-shadow:0 8px 28px rgba(20,30,50,.18);
+    padding:5px;display:none;z-index:50}
+  .menu-item.open .menu-dropdown{display:block}
+  .md-item{display:flex;align-items:center;gap:9px;padding:6px 10px;border-radius:4px;white-space:nowrap;cursor:default}
+  .md-item:hover{background:var(--menu-hover)}
+  .md-item.disabled{color:var(--faint);pointer-events:none}
+  .md-icon{width:16px;height:16px;flex:0 0 16px;display:grid;place-items:center;color:var(--sub)}
+  .md-label{flex:1;font-size:13px}
+  .md-shortcut{color:var(--faint);font-size:11.5px;margin-left:22px;font-variant-numeric:tabular-nums}
+  .md-sep{height:1px;background:#e8eaee;margin:5px 8px}
+  .md-sub{position:relative;display:flex;align-items:center;gap:9px;padding:6px 10px;border-radius:4px;cursor:default}
+  .md-sub:hover{background:var(--menu-hover)}
+  .md-sub.disabled{color:var(--faint)}
+  .md-sub > .md-label{flex:1}
+  .md-arrow{color:var(--faint);font-size:9px;margin-left:14px}
+  .md-sub-panel{position:absolute;top:-6px;left:100%;min-width:190px;background:#fff;
+    border:1px solid #c9ccd2;border-radius:6px;box-shadow:0 8px 28px rgba(20,30,50,.18);padding:5px;display:none}
+  .md-sub:hover > .md-sub-panel{display:block}
+
+  /* ===== icon toolbar ===== */
+  #icon-toolbar{display:flex;align-items:center;gap:2px;background:var(--toolbar-bg);
+    border-bottom:1px solid var(--tb-border);padding:4px 8px;height:56px;flex:0 0 56px;overflow-x:auto}
+  .tb-group{display:flex;align-items:center;gap:1px}
+  .tb-btn{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;
+    min-width:42px;height:48px;padding:3px 5px;border-radius:5px;color:var(--ink)}
+  .tb-btn:hover{background:var(--tb-hover)}
+  .tb-btn:active,.tb-btn.on{background:var(--tb-active)}
+  .tb-btn.disabled{color:var(--faint);pointer-events:none}
+  .tb-sprite{width:20px;height:20px;display:grid;place-items:center;color:var(--sub)}
+  .tb-icon-text{font-size:15px;line-height:1;height:20px;display:grid;place-items:center;color:var(--sub)}
+  .tb-label{font-size:10px;line-height:1.1;text-align:center;color:var(--sub)}
+  .tb-sep{width:1px;height:34px;background:var(--tb-border);margin:0 5px;flex:0 0 1px}
+
+  /* ===== style (format) bar ===== */
+  #style-bar{display:flex;align-items:center;gap:6px;background:var(--toolbar-bg);
+    border-bottom:1px solid var(--tb-border);padding:5px 10px;height:42px;flex:0 0 42px;overflow-x:auto}
+  .sf-select{height:28px;border:1px solid #d2d6dc;border-radius:5px;background:#fff;font-size:12.5px;
+    color:var(--ink);padding:0 26px 0 9px;cursor:pointer;position:relative;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 12 12'><path d='M2.5 4.5L6 8l3.5-3.5' stroke='%238b94a3' stroke-width='1.4' fill='none' stroke-linecap='round'/></svg>");
+    background-repeat:no-repeat;background-position:right 8px center;appearance:none}
+  .sf-style{width:110px}.sf-font{width:128px}.sf-size{width:62px;text-align:center;padding-right:22px}
+  .sf-sep{width:1px;height:24px;background:var(--tb-border);margin:0 3px}
+  .sf-btn{width:28px;height:28px;border-radius:5px;display:grid;place-items:center;color:var(--ink);font-size:14px}
+  .sf-btn:hover{background:var(--tb-hover)}
+  .sf-btn.on{background:var(--tb-active);color:var(--accent-d)}
+  .sf-btn b{font-weight:800}.sf-btn i{font-style:italic;font-family:Georgia,serif}
+  .sf-btn u{text-decoration:underline}
+  .sf-color{position:relative}
+  .sf-color .bar{position:absolute;bottom:4px;left:6px;right:6px;height:3px;border-radius:1px}
+
+  /* ===== editor area ===== */
+  #editor-area{flex:1;display:flex;flex-direction:column;min-height:0;background:var(--canvas)}
+  #ruler-row{display:flex;background:var(--rule-bg);border-bottom:1px solid #d7dade;height:22px;flex:0 0 22px}
+  #ruler-corner{width:26px;flex:0 0 26px;background:var(--rule-bg);border-right:1px solid #d7dade}
+  #h-ruler{flex:1;position:relative;overflow:hidden}
+  #scroll-container{flex:1;overflow:auto;padding:26px 0 60px;display:flex;flex-direction:column;align-items:center;position:relative}
+
+  .doc-page{width:794px;min-height:1123px;background:var(--page);box-shadow:0 3px 18px rgba(0,0,0,.32);
+    margin-bottom:24px;position:relative;padding:96px 85px}
+  .doc-page::before{content:"";position:absolute;inset:60px 60px;border:1px dashed #e6e6e6;pointer-events:none}
+  .doc-body{font-family:var(--doc-font);color:#111;position:relative;z-index:1}
+  .doc-title{font-size:22pt;font-weight:700;text-align:center;letter-spacing:-.3px;margin-bottom:6px;line-height:1.4}
+  .doc-subtitle{font-size:11pt;text-align:center;color:#444;margin-bottom:30px}
+  .doc-h2{font-size:13pt;font-weight:700;margin:22px 0 9px;padding-left:2px}
+  .doc-p{font-size:11pt;line-height:1.85;text-align:justify;margin-bottom:11px;text-indent:11pt}
+  .doc-p.noindent{text-indent:0}
+  .doc-table{border-collapse:collapse;width:100%;margin:10px 0 16px;font-size:10.5pt}
+  .doc-table th,.doc-table td{border:1px solid #333;padding:6px 9px;text-align:center;line-height:1.5}
+  .doc-table th{background:#eef1f5;font-weight:700}
+  .doc-table td.l{text-align:left}
+  .doc-footer{position:absolute;bottom:52px;left:0;right:0;text-align:center;font-family:var(--doc-font);
+    font-size:10pt;color:#333}
+  .caret{display:inline-block;width:1px;height:1.1em;background:#111;vertical-align:text-bottom;
+    animation:blink 1.06s steps(2) infinite;margin-left:-1px}
+  @keyframes blink{50%{opacity:0}}
+
+  .drop-hint{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;
+    color:#eef0f3;pointer-events:none}
+  .drop-hint svg{opacity:.85;margin-bottom:14px}
+  .drop-hint .t1{font-size:15px;font-weight:600;margin-bottom:6px}
+  .drop-hint .t2{font-size:12.5px;color:#d2d7dd}
+
+  /* ===== status bar ===== */
+  #status-bar{display:flex;align-items:center;background:var(--status-bg);border-top:1px solid var(--status-border);
+    height:26px;flex:0 0 26px;padding:0 12px;font-size:11.5px;color:var(--sub);gap:16px}
+  #sb-message{flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .sb-cell{white-space:nowrap;font-variant-numeric:tabular-nums}
+  #sb-field{color:var(--accent-d);font-weight:600}
+  .sb-zoom{display:flex;align-items:center;gap:6px}
+  .sb-zoom button{width:20px;height:20px;border-radius:4px;display:grid;place-items:center;color:var(--sub);font-size:13px}
+  .sb-zoom button:hover{background:var(--tb-hover)}
+  #sb-zoom-val{min-width:38px;text-align:center;cursor:pointer}
+
+  .ic{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+  .ic-f{fill:currentColor;stroke:none}
+
+  /* about dialog */
+  .ov{position:fixed;inset:0;background:rgba(20,26,38,.4);display:none;align-items:center;justify-content:center;z-index:90}
+  .ov.on{display:flex}
+  .about{width:380px;background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 24px 60px rgba(0,0,0,.3)}
+  .about-hd{background:linear-gradient(135deg,#2a72c8,#1c5aa6);color:#fff;padding:26px 24px}
+  .about-hd .logo{font-size:30px;font-weight:800;letter-spacing:.5px}
+  .about-hd .ver{font-size:12px;opacity:.85;margin-top:4px}
+  .about-bd{padding:20px 24px;font-size:12.5px;line-height:1.7;color:var(--sub)}
+  .about-bd b{color:var(--ink)}
+  .about-bd a{color:var(--accent);text-decoration:none}
+  .about-ft{padding:0 24px 22px;display:flex;justify-content:flex-end}
+  .about-ft button{background:var(--accent);color:#fff;border-radius:7px;padding:8px 20px;font-size:13px;font-weight:600;cursor:pointer}
+</style>
+</head>
+<body>
+
+<div class="retbar">
+  <a href="../../index.html"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg> HOP Android 프로젝트로 돌아가기</a>
+  <span class="mid">Live Demo · 원본 프론트엔드 셸 재현 · <b>rhwp WASM 엔진 미포함</b></span>
+  <a class="gh" href="https://github.com/dalgona039/hop_android" target="_blank" rel="noopener">GitHub ↗</a>
+</div>
+
+<div id="studio-root">
+  <!-- ===== menu bar ===== -->
+  <div id="menu-bar">
+    <div class="menu-item" data-menu="file">
+      <span class="menu-title">파일</span>
+      <div class="menu-dropdown">
+        <div class="md-item disabled"><span class="md-icon"></span><span class="md-label">새로 만들기</span></div>
+        <div class="md-item"><span class="md-icon"></span><span class="md-label">새 창</span><span class="md-shortcut">Ctrl+Shift+N</span></div>
+        <div class="md-item" data-cmd="file:open"><span class="md-icon"></span><span class="md-label">열기</span><span class="md-shortcut">Ctrl+O</span></div>
+        <div class="md-item disabled"><span class="md-icon"></span><span class="md-label">저장</span><span class="md-shortcut">Ctrl+S</span></div>
+        <div class="md-item disabled"><span class="md-icon"></span><span class="md-label">다른 이름으로 저장</span><span class="md-shortcut">Ctrl+Shift+S</span></div>
+        <div class="md-sep"></div>
+        <div class="md-item disabled"><span class="md-icon"></span><span class="md-label">PDF 내보내기</span><span class="md-shortcut">Ctrl+E</span></div>
+        <div class="md-item disabled"><span class="md-icon"></span><span class="md-label">편집 용지</span><span class="md-shortcut">F7</span></div>
+        <div class="md-item disabled"><span class="md-icon"></span><span class="md-label">인쇄</span><span class="md-shortcut">Ctrl+P</span></div>
+        <div class="md-sep"></div>
+        <div class="md-item" data-cmd="file:about"><span class="md-icon"></span><span class="md-label">제품 정보</span></div>
+      </div>
+    </div>
+    <div class="menu-item" data-menu="edit">
+      <span class="menu-title">편집</span>
+      <div class="menu-dropdown">
+        <div class="md-item"><span class="md-icon"></span><span class="md-label">되돌리기</span><span class="md-shortcut">Ctrl+Z</span></div>
+        <div class="md-item"><span class="md-icon"></span><span class="md-label">다시 실행</span><span class="md-shortcut">Ctrl+Shift+Z</span></div>
+        <div class="md-sep"></div>
+        <div class="md-item"><span class="md-icon"></span><span class="md-label">오려 두기</span><span class="md-shortcut">Ctrl+X</span></div>
+        <div class="md-item"><span class="md-icon"></span><span class="md-label">복사하기</span><span class="md-shortcut">Ctrl+C</span></div>
+        <div class="md-item"><span class="md-icon"></span><span class="md-label">붙이기</span><span class="md-shortcut">Ctrl+V</span></div>
+        <div class="md-item disabled"><span class="md-icon"></span><span class="md-label">모양 복사</span><span class="md-shortcut">Ctrl+Alt+C</span></div>
+        <div class="md-sep"></div>
+        <div class="md-item disabled"><span class="md-icon"></span><span class="md-label">모두 선택</span><span class="md-shortcut">Ctrl+A</span></div>
+        <div class="md-sep"></div>
+        <div class="md-item"><span class="md-icon"></span><span class="md-label">찾기(F)</span><span class="md-shortcut">Ctrl+F</span></div>
+        <div class="md-item"><span class="md-icon"></span><span class="md-label">찾아 바꾸기(E)</span><span class="md-shortcut">Ctrl+F2</span></div>
+        <div class="md-item"><span class="md-icon"></span><span class="md-label">찾아가기(G)</span><span class="md-shortcut">Alt+G</span></div>
+      </div>
+    </div>
+    <div class="menu-item" data-menu="view">
+      <span class="menu-title">보기</span>
+      <div class="menu-dropdown">
+        <div class="md-item" data-cmd="view:zoom-in"><span class="md-icon"></span><span class="md-label">확대</span><span class="md-shortcut">Shift+Num +</span></div>
+        <div class="md-item" data-cmd="view:zoom-out"><span class="md-icon"></span><span class="md-label">축소</span><span class="md-shortcut">Shift+Num -</span></div>
+        <div class="md-sep"></div>
+        <div class="md-sub"><span class="md-label">배율</span><span class="md-arrow">▶</span>
+          <div class="md-sub-panel">
+            <div class="md-item" data-cmd="zoom:50"><span class="md-icon"></span><span class="md-label">50%</span></div>
+            <div class="md-item" data-cmd="zoom:75"><span class="md-icon"></span><span class="md-label">75%</span></div>
+            <div class="md-item" data-cmd="zoom:100"><span class="md-icon"></span><span class="md-label">100%</span></div>
+            <div class="md-item" data-cmd="zoom:125"><span class="md-icon"></span><span class="md-label">125%</span></div>
+            <div class="md-item" data-cmd="zoom:150"><span class="md-icon"></span><span class="md-label">150%</span></div>
+            <div class="md-item" data-cmd="zoom:200"><span class="md-icon"></span><span class="md-label">200%</span></div>
+          </div>
+        </div>
+        <div class="md-sep"></div>
+        <div class="md-item" data-cmd="view:ctrl-mark"><span class="md-icon"></span><span class="md-label">조판 부호</span><span class="md-shortcut">Ctrl+G,C</span></div>
+        <div class="md-item" data-cmd="view:para-mark"><span class="md-icon"></span><span class="md-label">문단 부호</span><span class="md-shortcut">Ctrl+G,T</span></div>
+        <div class="md-item"><span class="md-icon"></span><span class="md-label">격자 설정</span></div>
+      </div>
+    </div>
+    <div class="menu-item" data-menu="insert">
+      <span class="menu-title">입력</span>
+      <div class="menu-dropdown">
+        <div class="md-item"><span class="md-icon"></span><span class="md-label">도형</span></div>
+        <div class="md-item"><span class="md-icon"></span><span class="md-label">그림</span></div>
+        <div class="md-item"><span class="md-icon"></span><span class="md-label">글상자</span></div>
+        <div class="md-sep"></div>
+        <div class="md-item"><span class="md-icon"></span><span class="md-label">각주</span></div>
+        <div class="md-item disabled"><span class="md-icon"></span><span class="md-label">미주</span></div>
+        <div class="md-item"><span class="md-icon"></span><span class="md-label">문자표</span><span class="md-shortcut">Alt+F10</span></div>
+        <div class="md-sep"></div>
+        <div class="md-item"><span class="md-icon"></span><span class="md-label">책갈피</span><span class="md-shortcut">Ctrl+K,B</span></div>
+        <div class="md-item disabled"><span class="md-icon"></span><span class="md-label">하이퍼링크</span><span class="md-shortcut">Ctrl+K+H</span></div>
+      </div>
+    </div>
+    <div class="menu-item" data-menu="format">
+      <span class="menu-title">서식</span>
+      <div class="menu-dropdown">
+        <div class="md-item"><span class="md-icon"></span><span class="md-label">진하게</span><span class="md-shortcut">Ctrl+B</span></div>
+        <div class="md-item"><span class="md-icon"></span><span class="md-label">기울임</span><span class="md-shortcut">Ctrl+I</span></div>
+        <div class="md-item"><span class="md-icon"></span><span class="md-label">밑줄</span><span class="md-shortcut">Ctrl+U</span></div>
+        <div class="md-sep"></div>
+        <div class="md-item disabled"><span class="md-icon"></span><span class="md-label">글자 모양</span><span class="md-shortcut">Alt+L</span></div>
+        <div class="md-item disabled"><span class="md-icon"></span><span class="md-label">문단 모양</span><span class="md-shortcut">Alt+T</span></div>
+        <div class="md-sep"></div>
+        <div class="md-item"><span class="md-icon"></span><span class="md-label">왼쪽 정렬</span><span class="md-shortcut">Ctrl+Shift+L</span></div>
+        <div class="md-item"><span class="md-icon"></span><span class="md-label">가운데 정렬</span><span class="md-shortcut">Alt+Shift+C</span></div>
+        <div class="md-item"><span class="md-icon"></span><span class="md-label">오른쪽 정렬</span><span class="md-shortcut">Alt+Shift+H</span></div>
+        <div class="md-item"><span class="md-icon"></span><span class="md-label">양쪽 정렬</span><span class="md-shortcut">Ctrl+Shift+M</span></div>
+        <div class="md-sep"></div>
+        <div class="md-item disabled"><span class="md-icon"></span><span class="md-label">스타일</span><span class="md-shortcut">F6</span></div>
+      </div>
+    </div>
+    <div class="menu-item" data-menu="page">
+      <span class="menu-title">쪽</span>
+      <div class="menu-dropdown">
+        <div class="md-item disabled"><span class="md-icon"></span><span class="md-label">편집 용지</span><span class="md-shortcut">F7</span></div>
+        <div class="md-sep"></div>
+        <div class="md-sub disabled"><span class="md-icon"></span><span class="md-label">머리말</span><span class="md-arrow">▶</span>
+          <div class="md-sub-panel">
+            <div class="md-item"><span class="md-label">빈 머리말</span></div>
+            <div class="md-sep"></div>
+            <div class="md-item"><span class="md-label">왼쪽 쪽 번호</span></div>
+            <div class="md-item"><span class="md-label">가운데 쪽 번호</span></div>
+            <div class="md-item"><span class="md-label">오른쪽 쪽 번호</span></div>
+            <div class="md-item"><span class="md-label">쪽 번호 + 파일 이름</span></div>
+          </div>
+        </div>
+        <div class="md-sub disabled"><span class="md-icon"></span><span class="md-label">꼬리말</span><span class="md-arrow">▶</span>
+          <div class="md-sub-panel">
+            <div class="md-item"><span class="md-label">빈 꼬리말</span></div>
+            <div class="md-sep"></div>
+            <div class="md-item"><span class="md-label">가운데 쪽 번호</span></div>
+            <div class="md-item"><span class="md-label">오른쪽 쪽 번호</span></div>
+          </div>
+        </div>
+        <div class="md-sep"></div>
+        <div class="md-item"><span class="md-icon"></span><span class="md-label">쪽 나누기</span><span class="md-shortcut">Ctrl+Enter</span></div>
+        <div class="md-sub"><span class="md-label">단</span><span class="md-arrow">▶</span>
+          <div class="md-sub-panel">
+            <div class="md-item"><span class="md-label">하나</span></div>
+            <div class="md-item"><span class="md-label">둘</span></div>
+            <div class="md-item"><span class="md-label">셋</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="menu-item" data-menu="table">
+      <span class="menu-title">표</span>
+      <div class="menu-dropdown">
+        <div class="md-item disabled"><span class="md-icon"></span><span class="md-label">표 만들기</span></div>
+        <div class="md-item disabled"><span class="md-icon"></span><span class="md-label">표/셀 속성</span></div>
+        <div class="md-sep"></div>
+        <div class="md-item disabled"><span class="md-icon"></span><span class="md-label">위쪽에 줄 추가하기</span></div>
+        <div class="md-item disabled"><span class="md-icon"></span><span class="md-label">아래쪽에 줄 추가하기</span></div>
+        <div class="md-item disabled"><span class="md-icon"></span><span class="md-label">셀 나누기</span><span class="md-shortcut">S</span></div>
+        <div class="md-item disabled"><span class="md-icon"></span><span class="md-label">셀 합치기</span><span class="md-shortcut">M</span></div>
+        <div class="md-sep"></div>
+        <div class="md-item disabled"><span class="md-icon"></span><span class="md-label">블록 합계</span><span class="md-shortcut">Ctrl+Shift+S</span></div>
+        <div class="md-item disabled"><span class="md-icon"></span><span class="md-label">블록 평균</span><span class="md-shortcut">Ctrl+Shift+A</span></div>
+      </div>
+    </div>
+    <div class="menu-item" data-menu="tool">
+      <span class="menu-title">도구</span>
+      <div class="menu-dropdown">
+        <div class="md-item"><span class="md-icon"></span><span class="md-label">환경 설정</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== icon toolbar ===== -->
+  <div id="icon-toolbar">
+    <div class="tb-group">
+      <button class="tb-btn"><span class="tb-sprite"><svg class="ic" viewBox="0 0 24 24"><path d="M9 9h11v11H9z"/><path d="M5 15H4V4h11v1"/></svg></span><span class="tb-label">오려<br/>두기</span></button>
+      <button class="tb-btn"><span class="tb-sprite"><svg class="ic" viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" rx="1.5"/><path d="M5 15H4V4h11v1"/></svg></span><span class="tb-label">복사<br/>하기</span></button>
+      <button class="tb-btn"><span class="tb-sprite"><svg class="ic" viewBox="0 0 24 24"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/></svg></span><span class="tb-label">붙이기</span></button>
+      <button class="tb-btn disabled"><span class="tb-sprite"><svg class="ic" viewBox="0 0 24 24"><path d="M4 4h7v7H4z"/><path d="M14 14l6 6M14 20l6-6"/></svg></span><span class="tb-label">모양<br/>복사</span></button>
+    </div>
+    <span class="tb-sep"></span>
+    <div class="tb-group">
+      <button class="tb-btn" data-cmd="view:ctrl-mark"><span class="tb-icon-text">¶ª</span><span class="tb-label">조판<br/>부호</span></button>
+      <button class="tb-btn" data-cmd="view:para-mark"><span class="tb-icon-text">¶</span><span class="tb-label">문단<br/>부호</span></button>
+      <button class="tb-btn"><span class="tb-sprite"><svg class="ic" viewBox="0 0 24 24"><path d="M3 3h18v18H3z"/><path d="M3 9h18M3 15h18M9 3v18M15 3v18"/></svg></span><span class="tb-label">격자<br/>보기</span></button>
+    </div>
+    <span class="tb-sep"></span>
+    <div class="tb-group">
+      <button class="tb-btn"><span class="tb-sprite"><svg class="ic" viewBox="0 0 24 24"><path d="M7 7V5h10v2M12 5v14M9 19h6"/></svg></span><span class="tb-label">글자<br/>모양</span></button>
+      <button class="tb-btn"><span class="tb-sprite"><svg class="ic" viewBox="0 0 24 24"><path d="M4 6h16M4 10h10M4 14h16M4 18h10"/></svg></span><span class="tb-label">문단<br/>모양</span></button>
+    </div>
+    <span class="tb-sep"></span>
+    <div class="tb-group">
+      <button class="tb-btn"><span class="tb-icon-text">1.</span><span class="tb-label">문단<br/>번호</span></button>
+      <button class="tb-btn"><span class="tb-icon-text">●</span><span class="tb-label">글머리<br/>표</span></button>
+      <button class="tb-btn"><span class="tb-sprite"><svg class="ic" viewBox="0 0 24 24"><path d="M5 8l4 4-4 4M11 12h8"/></svg></span><span class="tb-label">수준<br/>증가</span></button>
+      <button class="tb-btn"><span class="tb-sprite"><svg class="ic" viewBox="0 0 24 24"><path d="M9 8l-4 4 4 4M5 12h8M19 8v8"/></svg></span><span class="tb-label">수준<br/>감소</span></button>
+    </div>
+    <span class="tb-sep"></span>
+    <div class="tb-group">
+      <button class="tb-btn"><span class="tb-sprite"><svg class="ic" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg></span><span class="tb-label">그림</span></button>
+      <button class="tb-btn"><span class="tb-sprite"><svg class="ic" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="1.5"/><path d="M7 9h10M7 13h6"/></svg></span><span class="tb-label">글상자</span></button>
+      <button class="tb-btn disabled"><span class="tb-sprite"><svg class="ic" viewBox="0 0 24 24"><path d="M3 3h18v18H3z"/><path d="M3 9h18M9 3v18"/></svg></span><span class="tb-label">표</span></button>
+    </div>
+  </div>
+
+  <!-- ===== style (format) bar ===== -->
+  <div id="style-bar">
+    <select class="sf-select sf-style"><option>바탕글</option><option>본문</option><option>개요 1</option><option>개요 2</option><option>쪽 번호</option></select>
+    <select class="sf-select sf-font"><option>함초롬바탕</option><option>함초롬돋움</option><option>바탕</option><option>돋움</option><option>맑은 고딕</option><option>굴림</option></select>
+    <select class="sf-select sf-size"><option>9</option><option>10</option><option selected>11</option><option>12</option><option>14</option><option>16</option><option>22</option></select>
+    <span class="sf-sep"></span>
+    <button class="sf-btn" title="진하게"><b>가</b></button>
+    <button class="sf-btn" title="기울임"><i>가</i></button>
+    <button class="sf-btn" title="밑줄"><u>가</u></button>
+    <button class="sf-btn sf-color" title="글자 색"><span>가</span><span class="bar" style="background:#d32f2f"></span></button>
+    <button class="sf-btn sf-color" title="형광펜"><span style="background:#fff59d;padding:0 2px">가</span></button>
+    <span class="sf-sep"></span>
+    <button class="sf-btn on" title="왼쪽 정렬"><svg class="ic" viewBox="0 0 24 24"><path d="M4 6h16M4 10h10M4 14h16M4 18h10"/></svg></button>
+    <button class="sf-btn" title="가운데 정렬"><svg class="ic" viewBox="0 0 24 24"><path d="M4 6h16M7 10h10M4 14h16M7 18h10"/></svg></button>
+    <button class="sf-btn" title="오른쪽 정렬"><svg class="ic" viewBox="0 0 24 24"><path d="M4 6h16M10 10h10M4 14h16M10 18h10"/></svg></button>
+    <button class="sf-btn" title="양쪽 정렬"><svg class="ic" viewBox="0 0 24 24"><path d="M4 6h16M4 10h16M4 14h16M4 18h16"/></svg></button>
+  </div>
+
+  <!-- ===== editor area ===== -->
+  <div id="editor-area">
+    <div id="ruler-row">
+      <div id="ruler-corner"></div>
+      <canvas id="h-ruler"></canvas>
+    </div>
+    <div id="scroll-container">
+      <div class="drop-hint" id="dropHint">
+        <svg width="58" height="58" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>
+        <div class="t1">HWP 파일을 선택해주세요.</div>
+        <div class="t2">파일 › 열기 (Ctrl+O) — 또는 여기로 .hwp / .hwpx 끌어다 놓기</div>
+      </div>
+      <!-- sample document is injected here by JS -->
+    </div>
+  </div>
+
+  <!-- ===== status bar ===== -->
+  <div id="status-bar">
+    <span id="sb-message">HWP 파일을 선택해주세요.</span>
+    <span class="sb-cell" id="sb-field" style="display:none"></span>
+    <span class="sb-cell" id="sb-mode">삽입</span>
+    <span class="sb-cell" id="sb-section">구역: 1 / 1</span>
+    <span class="sb-cell" id="sb-page">1 / 1 쪽</span>
+    <span class="sb-zoom">
+      <button id="sb-zoom-out">−</button>
+      <span id="sb-zoom-val">100%</span>
+      <button id="sb-zoom-in">+</button>
+    </span>
+  </div>
+</div>
+
+<!-- about dialog -->
+<div class="ov" id="aboutOv">
+  <div class="about">
+    <div class="about-hd"><div class="logo">HOP</div><div class="ver">HWP/HWPX Editor · Android Port · v0.1.0</div></div>
+    <div class="about-bd">
+      <b>HOP</b>는 rhwp(Rust + WebAssembly) 엔진 기반의 HWP/HWPX 편집기입니다. 이 저장소는 데스크톱(Tauri v2)판을 <b>Android</b> 환경(인텐트 기반 열기, Scoped Storage, 모바일 UX)으로 포팅한 버전입니다.<br/><br/>
+      엔진: <b>rhwp</b> · 셸: <b>studio-host</b> (TypeScript)<br/>
+      <a href="https://github.com/dalgona039/hop_android" target="_blank" rel="noopener">github.com/dalgona039/hop_android</a>
+    </div>
+    <div class="about-ft"><button id="aboutClose">확인</button></div>
+  </div>
+</div>
+
+<script src="demo.js"></script>
+</body>
+</html>

@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>N₂O Digital Twin Dashboard — Live Demo</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800&display=swap" rel="stylesheet" />
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+
+<!-- Tailwind Play CDN -->
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        fontFamily: {
+          sans: ['Plus Jakarta Sans', 'Pretendard', 'system-ui', 'sans-serif'],
+        },
+      },
+    },
+  };
+</script>
+
+<!-- React + Babel (pinned) -->
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+<!-- recharts (requires prop-types + react-is loaded first) -->
+<script src="https://cdn.jsdelivr.net/npm/prop-types@15.8.1/prop-types.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/react-is@18.3.1/umd/react-is.production.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/recharts@2.12.7/umd/Recharts.min.js"></script>
+
+<!-- user-fillable image slot -->
+<script src="app/image-slot.js"></script>
+
+<style>
+  html, body { background: #e7ebea; }
+  body {
+    margin: 0;
+    font-family: 'Plus Jakarta Sans', 'Pretendard', system-ui, sans-serif;
+    color: #162019;
+    -webkit-font-smoothing: antialiased;
+    background-color: #e7ebea;
+    background-image:
+      radial-gradient(1100px 560px at 78% -6%, rgba(15,154,166,0.07), transparent 60%),
+      radial-gradient(820px 480px at 4% 2%, rgba(239,108,59,0.05), transparent 55%),
+      repeating-linear-gradient(118deg, rgba(22,32,25,0) 0 64px, rgba(22,32,25,0.012) 64px 65px);
+  }
+  .tnum { font-variant-numeric: tabular-nums; }
+
+  .card {
+    background: #ffffff;
+    border: 1px solid #ebeeec;
+    border-radius: 24px;
+    box-shadow: 0 1px 2px rgba(20,40,33,0.03), 0 18px 38px -26px rgba(20,40,33,0.20);
+  }
+  .card-alt { background: #f2f5f4; border: 1px solid #e9ecea; border-radius: 24px; }
+
+  .lbl { color: #939d98; font-weight: 500; letter-spacing: 0.01em; }
+
+  @keyframes fadeInUp { from { transform: translateY(12px); } to { transform: translateY(0); } }
+  .fade-up { animation: fadeInUp 0.55s cubic-bezier(0.22, 1, 0.36, 1) both; }
+  @media (prefers-reduced-motion: reduce) { .fade-up { animation: none; } }
+
+  @keyframes pulseOrange { 0% { box-shadow: 0 0 0 0 rgba(239,108,59,0.45); } 70% { box-shadow: 0 0 0 8px rgba(239,108,59,0); } 100% { box-shadow: 0 0 0 0 rgba(239,108,59,0); } }
+  .pulse-orange { animation: pulseOrange 2.2s infinite; }
+  @keyframes pulseGreen { 0% { box-shadow: 0 0 0 0 rgba(63,157,109,0.4); } 70% { box-shadow: 0 0 0 7px rgba(63,157,109,0); } 100% { box-shadow: 0 0 0 0 rgba(63,157,109,0); } }
+  .pulse-green { animation: pulseGreen 2.4s infinite; }
+
+  @keyframes shimmer { 0% { background-position: -480px 0; } 100% { background-position: 480px 0; } }
+  .skel {
+    background: #eef1ef;
+    background-image: linear-gradient(90deg, rgba(180,190,185,0) 0%, rgba(180,190,185,0.35) 50%, rgba(180,190,185,0) 100%);
+    background-size: 480px 100%;
+    background-repeat: no-repeat;
+    animation: shimmer 1.6s infinite linear;
+    border-radius: 12px;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .spin { animation: spin 0.85s linear infinite; }
+
+  /* ---- process / emission visualization ---- */
+  @keyframes bubbleUp {
+    0%   { transform: translate(0, 0) scale(0.5); opacity: 0; }
+    12%  { opacity: 0.7; }
+    85%  { opacity: 0.4; }
+    100% { transform: translate(7px, -132px) scale(1.05); opacity: 0; }
+  }
+  @keyframes gasRise {
+    0%   { transform: translate(0, 0) scale(0.7); opacity: 0; }
+    18%  { opacity: var(--op, 0.45); }
+    100% { transform: translate(var(--sx, 8px), -158px) scale(1.7); opacity: 0; }
+  }
+  @keyframes surfaceShimmer { from { background-position: 0 0; } to { background-position: 90px 0; } }
+  @keyframes floatY { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+  .bubble { position: absolute; border-radius: 9999px; background: radial-gradient(circle at 35% 30%, rgba(255,255,255,0.95), rgba(255,255,255,0.25)); }
+  .gaspuff { position: absolute; border-radius: 9999px; filter: blur(1px); }
+
+  ::-webkit-scrollbar { width: 11px; height: 11px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: #cdd5d1; border-radius: 7px; border: 3px solid #e7ebea; }
+  ::-webkit-scrollbar-thumb:hover { background: #b6bfba; }
+  ::selection { background: rgba(15,154,166,0.20); }
+
+  .recharts-default-tooltip { background: #ffffff !important; border: none !important; border-radius: 14px !important; box-shadow: 0 10px 30px -10px rgba(20,40,33,0.25) !important; }
+  .recharts-cartesian-axis-tick-value { font-family: 'Plus Jakarta Sans', sans-serif; }
+
+  image-slot { --is-radius: 16px; }
+
+  /* portfolio return bar (host-only, not part of original app) */
+  .retbar{height:42px;background:#11150f;color:#cfd6cb;display:flex;align-items:center;
+    justify-content:space-between;padding:0 18px;font-size:12.5px;letter-spacing:.2px;
+    font-family:'Plus Jakarta Sans',sans-serif}
+  .retbar a{color:#cfd6cb;text-decoration:none;display:inline-flex;align-items:center;gap:7px}
+  .retbar a:hover{color:#fff}
+  .retbar .mid{color:#7f8c80;font-size:11px}
+  .retbar .mid b{color:#9fe6b8;font-weight:600}
+  .retbar .gh{border:1px solid #2c3329;border-radius:999px;padding:4px 12px}
+  @media (max-width:640px){ .retbar .mid{display:none} }
+</style>
+</head>
+<body class="font-sans">
+
+  <div class="retbar">
+    <a href="../../index.html"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg> N2O 프로젝트로 돌아가기</a>
+    <span class="mid">Live Demo · <b>데모 데이터</b> · 백엔드 없이 원본 프론트엔드 시연</span>
+    <a class="gh" href="https://github.com/dalgona039/AI-Festival" target="_blank" rel="noopener">GitHub ↗</a>
+  </div>
+
+  <div id="root"></div>
+
+  <!-- original frontend source, loaded verbatim (unmodified) -->
+  <script type="text/babel" src="app/src/lib.jsx"></script>
+  <script type="text/babel" src="app/src/ui.jsx"></script>
+  <script type="text/babel" src="app/src/charts.jsx"></script>
+  <script type="text/babel" src="app/src/sections.jsx"></script>
+  <script type="text/babel" src="app/src/processviz.jsx"></script>
+  <script type="text/babel" src="app/src/app.jsx"></script>
+
+  <!-- host-only: auto-trigger the app's built-in demo-preview hook (__loadDemo) -->
+  <script>
+    (function () {
+      var tries = 0;
+      var iv = setInterval(function () {
+        if (window.__demo && typeof window.__loadDemo === "function") {
+          window.__loadDemo();
+          clearInterval(iv);
+        } else if (++tries > 150) {
+          clearInterval(iv);
+        }
+      }, 100);
+    })();
+  </script>
+</body>
+</html>
